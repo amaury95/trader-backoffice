@@ -53,6 +53,7 @@ export const typeDefs = gql`
   type Mutation {
     register(email: String!, name: String!, password: String!): Boolean!
     login(email: String!, password: String!): User
+    logout: Boolean!
 
     editRole(value: Int!, userId: Int!, action: RoleAction): Boolean!
 

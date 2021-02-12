@@ -65,7 +65,7 @@ export const resolvers: IResolvers = {
 
       const { userId } = req.session;
 
-      if (!User.hasRole(userId, Role.accountant, Role.admin)) {
+      if (!(await User.hasRole(userId, Role.accountant, Role.admin))) {
         throw new AuthenticationError("you must be logged in");
       }
 
@@ -129,6 +129,11 @@ export const resolvers: IResolvers = {
       req.session.userId = user.id;
 
       return user;
+    },
+
+    logout: (_, __, { req }) => {
+      req.session.userId = 0;
+      return true;
     },
 
     editRole: async (_, { value, userId, action }, { req }) => {
