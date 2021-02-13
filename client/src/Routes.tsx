@@ -14,6 +14,7 @@ import LoginView from "modules/user/LoginView";
 import RegisterView from "modules/user/RegisterView";
 import { HomeLayout } from "modules/home";
 import HomeView from "modules/home/Home";
+import UsersView from "modules/dashboard/UsersView";
 
 export default function Routes() {
   return (
@@ -41,6 +42,7 @@ const DashboardRoutes = () => (
   <DashboardLayout>
     <Switch>
       <Route exact path="/dashboard" component={BoardView} />
+      <Route exact path="/dashboard/users" component={UsersView} />
       <Redirect to="/dashboard" />
     </Switch>
   </DashboardLayout>

@@ -6,7 +6,6 @@ import { client } from "./apollo";
 import reportWebVitals from "./reportWebVitals";
 import Routes from "./Routes";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import StoreProvider from "store";
 
 ReactDOM.render(
