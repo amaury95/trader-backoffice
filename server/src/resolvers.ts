@@ -13,8 +13,10 @@ import * as UserController from "./controller/UserController";
 
 export const resolvers: IResolvers = {
   User: {
-    edges: async (parent): Promise<any> => ({
-      outcome: await parent.outcome,
+    edges: async (parent: User): Promise<any> => ({
+      outcome: (await parent.outcome).filter(
+        (transaction) => transaction.receiverId !== parent.id
+      ),
       income: await parent.income,
       roles: await parent.roles,
     }),
