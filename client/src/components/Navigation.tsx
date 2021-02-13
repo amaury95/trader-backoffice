@@ -1,9 +1,17 @@
 import { gql, useMutation } from "@apollo/client";
 import { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { setSession, Store } from "store";
-
 import { LogoutMutation } from "types";
+import {
+  Button,
+  Header,
+  // HeaderGlobalAction,
+  HeaderGlobalBar,
+  HeaderMenuItem,
+  HeaderName,
+  HeaderNavigation,
+} from "carbon-components-react";
 
 const logoutMutation = gql`
   mutation LogoutMutation {
@@ -13,6 +21,7 @@ const logoutMutation = gql`
 
 export const Navigation = () => {
   const history = useHistory();
+  const { pathname: path } = useLocation();
 
   const { state, dispatch } = useContext(Store);
 
@@ -27,33 +36,38 @@ export const Navigation = () => {
   const session = state.session?.session;
 
   return (
-    <nav>
-      <Link to="/">Trader Admin</Link>
-      {session && (
-        <>
-          <Link to="/dashboard">Dashboard</Link>
-
-          {session.edges?.roles?.some((r) => r?.value === 3) && (
-            <Link to="/dashboard/users">Users</Link>
+    <>
+      <Header aria-label="trader admin">
+        <Link to="/">
+          <HeaderName prefix="Trader"> Admin</HeaderName>
+        </Link>
+        <HeaderNavigation>
+          <HeaderMenuItem
+            isCurrentPage={path.endsWith("/dashboard")}
+            href="/#/dashboard"
+          >
+            Dashboard
+          </HeaderMenuItem>
+          {session?.edges?.roles?.some((r) => r?.value === 3) && (
+            <HeaderMenuItem
+              isCurrentPage={path.endsWith("/dashboard/users")}
+              href="/#/dashboard/users"
+            >
+              Users
+            </HeaderMenuItem>
           )}
-        </>
-      )}
+        </HeaderNavigation>
 
-      {session ? (
-        <>
-          <p>{session.email}</p>
-          <button onClick={logoutHandler}>Logout</button>
-        </>
-      ) : (
-        <>
-          <Link to="/session">
-            <button>Login</button>
-          </Link>
-          <Link to="/session/register">
-            <button>Register</button>
-          </Link>
-        </>
-      )}
-    </nav>
+        <HeaderGlobalBar>
+          {session && (
+            <>
+              {/* <HeaderGlobalAction aria-label="App Switcher"></HeaderGlobalAction> */}
+              <Button onClick={logoutHandler}>Logout</Button>
+            </>
+          )}
+        </HeaderGlobalBar>
+      </Header>
+      <div style={{ marginTop: 50 }}></div>
+    </>
   );
 };

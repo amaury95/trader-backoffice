@@ -8,6 +8,8 @@ import Routes from "./Routes";
 
 import StoreProvider from "store";
 
+import "./index.scss";
+
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>

@@ -21,7 +21,7 @@ export const query = gql`
 `;
 
 interface Props {
-  fallback: string;
+  fallback?: string;
 }
 
 export const Authenticated: FunctionComponent<Props> = ({
@@ -40,7 +40,7 @@ export const Authenticated: FunctionComponent<Props> = ({
     .then(({ data }) => {
       if (data.session) {
         dispatch(setSession(data));
-      } else {
+      } else if (fallback) {
         history.push(fallback);
       }
     });
