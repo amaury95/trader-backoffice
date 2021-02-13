@@ -12,6 +12,8 @@ import BoardView from "modules/dashboard/BoardView";
 import { UserLayout } from "modules/user";
 import LoginView from "modules/user/LoginView";
 import RegisterView from "modules/user/RegisterView";
+import { HomeLayout } from "modules/home";
+import HomeView from "modules/home/Home";
 
 export default function Routes() {
   return (
@@ -19,7 +21,7 @@ export default function Routes() {
       <Switch>
         <Route path="/dashboard" render={DashboardRoutes} />
         <Route path="/session" render={UserRoutes} />
-        <Redirect to="/dashboard" />
+        <Route path="/" render={HomeRoutes} />
       </Switch>
     </Router>
   );
@@ -39,6 +41,16 @@ const DashboardRoutes = () => (
   <DashboardLayout>
     <Switch>
       <Route exact path="/dashboard" component={BoardView} />
+      <Redirect to="/dashboard" />
     </Switch>
   </DashboardLayout>
+);
+
+const HomeRoutes = () => (
+  <HomeLayout>
+    <Switch>
+      <Route exact path="/" component={HomeView} />
+      <Redirect to="/" />
+    </Switch>
+  </HomeLayout>
 );

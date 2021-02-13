@@ -4,8 +4,12 @@ import { Link, useHistory } from "react-router-dom";
 import { RegisterMutation, RegisterMutationVariables } from "types";
 
 const registerMutation = gql`
-  mutation RegisterMutation($email: String!, $password: String!) {
-    register(email: $email, password: $password)
+  mutation RegisterMutation(
+    $email: String!
+    $name: String!
+    $password: String!
+  ) {
+    register(email: $email, name: $name, password: $password)
   }
 `;
 
@@ -18,6 +22,7 @@ export default function RegisterView() {
 
   const handleSubmit = async (variables: RegisterMutationVariables) => {
     const { data } = await register({ variables });
+
     if (data?.register) {
       history.push("/session");
     }
@@ -27,12 +32,15 @@ export default function RegisterView() {
     <div>
       <h2>Register</h2>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "", name: "", password: "" }}
         onSubmit={handleSubmit}
       >
         <Form>
           <div>
             <Field type="email" name="email" placeholder="email" />
+          </div>
+          <div>
+            <Field type="name" name="name" placeholder="full name" />
           </div>
           <div>
             <Field type="password" name="password" placeholder="password" />

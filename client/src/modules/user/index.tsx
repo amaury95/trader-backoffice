@@ -1,5 +1,6 @@
+import { HomeLayout } from "modules/home";
 import React, { FunctionComponent } from "react";
 
 export const UserLayout: FunctionComponent = ({ children }) => {
-  return <div>{children}</div>;
+  return <HomeLayout>{children}</HomeLayout>;
 };
