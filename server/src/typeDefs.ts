@@ -28,9 +28,9 @@ export const typeDefs = gql`
   }
 
   type UserEdges {
-    income: [Transaction]!
-    outcome: [Transaction]!
-    roles: [Role]!
+    income: [Transaction!]
+    outcome: [Transaction!]
+    roles: [Role!]
   }
 
   type UserInfo {

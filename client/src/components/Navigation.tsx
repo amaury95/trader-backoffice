@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { setSession, Store } from "store";
 import { LogoutMutation } from "types";
@@ -8,9 +8,13 @@ import {
   Header,
   // HeaderGlobalAction,
   HeaderGlobalBar,
+  HeaderMenu,
+  HeaderMenuButton,
   HeaderMenuItem,
   HeaderName,
   HeaderNavigation,
+  SideNav,
+  SkipToContent,
 } from "carbon-components-react";
 
 const logoutMutation = gql`
@@ -19,7 +23,7 @@ const logoutMutation = gql`
   }
 `;
 
-export const Navigation = () => {
+const useNavigationData = () => {
   const history = useHistory();
   const { pathname: path } = useLocation();
 
@@ -27,44 +31,87 @@ export const Navigation = () => {
 
   const [logout] = useMutation<LogoutMutation>(logoutMutation);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return { history, path, state, dispatch, logout, isExpanded, setIsExpanded };
+};
+
+export const Navigation = () => {
+  const {
+    history,
+    path,
+    state,
+    dispatch,
+    logout,
+    isExpanded,
+    setIsExpanded,
+  } = useNavigationData();
+
   const logoutHandler = async () => {
     await logout();
     dispatch(setSession(undefined));
     history.push("/");
   };
 
+  const onClickSideNavExpand = () => setIsExpanded(!isExpanded);
+
   const session = state.session?.session;
+
+  const MenuItems = () => (
+    <>
+      <HeaderMenuItem
+        isCurrentPage={path.endsWith("/dashboard")}
+        href="/#/dashboard"
+      >
+        Dashboard
+      </HeaderMenuItem>
+      {session?.edges?.roles?.some((r) => [2, 3].includes(r.value)) && (
+        <HeaderMenuItem
+          isCurrentPage={path.endsWith("/dashboard/users")}
+          href="/#/dashboard/users"
+        >
+          Users
+        </HeaderMenuItem>
+      )}
+      {session && (
+        <HeaderMenu menuLinkName="Finances">
+          <HeaderMenuItem>Transfer</HeaderMenuItem>
+
+          {session?.edges?.roles?.some((r) => [3].includes(r.value)) && (
+            <>
+              <HeaderMenuItem>Income</HeaderMenuItem>
+              <HeaderMenuItem>Deposit</HeaderMenuItem>
+            </>
+          )}
+        </HeaderMenu>
+      )}
+    </>
+  );
 
   return (
     <>
       <Header aria-label="trader admin">
+        <SkipToContent />
+        <HeaderMenuButton
+          aria-label="Open menu"
+          onClick={onClickSideNavExpand}
+          isActive={isExpanded}
+        />
         <Link to="/">
           <HeaderName prefix="Trader"> Admin</HeaderName>
         </Link>
         <HeaderNavigation>
-          <HeaderMenuItem
-            isCurrentPage={path.endsWith("/dashboard")}
-            href="/#/dashboard"
-          >
-            Dashboard
-          </HeaderMenuItem>
-          {session?.edges?.roles?.some((r) => r?.value === 3) && (
-            <HeaderMenuItem
-              isCurrentPage={path.endsWith("/dashboard/users")}
-              href="/#/dashboard/users"
-            >
-              Users
-            </HeaderMenuItem>
-          )}
+          <MenuItems />
         </HeaderNavigation>
-
+        <SideNav
+          aria-label="Side navigation"
+          expanded={isExpanded}
+          isPersistent={false}
+        >
+          <MenuItems />
+        </SideNav>
         <HeaderGlobalBar>
-          {session && (
-            <>
-              {/* <HeaderGlobalAction aria-label="App Switcher"></HeaderGlobalAction> */}
-              <Button onClick={logoutHandler}>Logout</Button>
-            </>
-          )}
+          {session && <Button onClick={logoutHandler}>Logout</Button>}
         </HeaderGlobalBar>
       </Header>
       <div style={{ marginTop: 50 }}></div>

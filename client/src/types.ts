@@ -14,7 +14,7 @@ export interface SessionQuery_session_edges_roles {
 
 export interface SessionQuery_session_edges {
   __typename: "UserEdges";
-  roles: (SessionQuery_session_edges_roles | null)[];
+  roles: SessionQuery_session_edges_roles[] | null;
 }
 
 export interface SessionQuery_session {
@@ -72,9 +72,9 @@ export interface AccountQuery_session_edges_roles {
 
 export interface AccountQuery_session_edges {
   __typename: "UserEdges";
-  income: (AccountQuery_session_edges_income | null)[];
-  outcome: (AccountQuery_session_edges_outcome | null)[];
-  roles: (AccountQuery_session_edges_roles | null)[];
+  income: AccountQuery_session_edges_income[] | null;
+  outcome: AccountQuery_session_edges_outcome[] | null;
+  roles: AccountQuery_session_edges_roles[] | null;
 }
 
 export interface AccountQuery_session {
@@ -103,7 +103,7 @@ export interface LoginMutation_session_edges_roles {
 
 export interface LoginMutation_session_edges {
   __typename: "UserEdges";
-  roles: (LoginMutation_session_edges_roles | null)[];
+  roles: LoginMutation_session_edges_roles[] | null;
 }
 
 export interface LoginMutation_session {

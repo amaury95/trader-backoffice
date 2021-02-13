@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { Button, FormGroup } from "carbon-components-react";
 import { Field, Form, Formik } from "formik";
 import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -45,13 +46,17 @@ export default function LoginView() {
         onSubmit={handleSubmit}
       >
         <Form>
-          <div>
-            <Field type="email" name="email" placeholder="email" />
-          </div>
-          <div>
-            <Field type="password" name="password" placeholder="password" />
-          </div>
-          <button type="submit">submit</button>
+          <FormGroup legendText="Securely login into your acount">
+            <div className="form-input">
+              <Field type="email" name="email" placeholder="Email" />
+            </div>
+            <div className="form-input">
+              <Field type="password" name="password" placeholder="Password" />
+            </div>
+            <div className="form-input">
+              <Button type="submit">Submit</Button>
+            </div>
+          </FormGroup>
         </Form>
       </Formik>
       <Link to="/session/register">Register</Link>

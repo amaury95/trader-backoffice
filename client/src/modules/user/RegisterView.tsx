@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { Button, FormGroup } from "carbon-components-react";
 import { Field, Form, Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { RegisterMutation, RegisterMutationVariables } from "types";
@@ -20,7 +21,12 @@ export default function RegisterView() {
     registerMutation
   );
 
-  const handleSubmit = async (variables: RegisterMutationVariables) => {
+  const handleSubmit = async (variables: any) => {
+    if (variables.password !== variables.repeatPassword) {
+      alert("passwords dont match");
+      return;
+    }
+
     const { data } = await register({ variables });
 
     if (data?.register) {
@@ -32,20 +38,36 @@ export default function RegisterView() {
     <div>
       <h2>Register</h2>
       <Formik
-        initialValues={{ email: "", name: "", password: "" }}
+        initialValues={{
+          email: "",
+          name: "",
+          password: "",
+          repeatPassword: "",
+        }}
         onSubmit={handleSubmit}
       >
         <Form>
-          <div>
-            <Field type="email" name="email" placeholder="email" />
-          </div>
-          <div>
-            <Field type="name" name="name" placeholder="full name" />
-          </div>
-          <div>
-            <Field type="password" name="password" placeholder="password" />
-          </div>
-          <button type="submit">submit</button>
+          <FormGroup legendText="Create a new acount">
+            <div className="form-input">
+              <Field type="email" name="email" placeholder="Email" />
+            </div>
+            <div className="form-input">
+              <Field type="name" name="name" placeholder="Full name" />
+            </div>
+            <div className="form-input">
+              <Field type="password" name="password" placeholder="Password" />
+            </div>
+            <div className="form-input">
+              <Field
+                type="password"
+                name="repeatPassword"
+                placeholder="Repeat Password"
+              />
+            </div>
+            <div className="form-input">
+              <Button type="submit">Submit</Button>
+            </div>
+          </FormGroup>
         </Form>
       </Formik>
       <Link to="/session">Login</Link>
