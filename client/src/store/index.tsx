@@ -3,29 +3,45 @@ import { SessionQuery } from "types";
 
 interface State {
   session?: SessionQuery;
+  currency: string;
 }
 
 interface Action {
   type: string;
 }
 
-interface SessionAction extends Action {
-  payload?: SessionQuery;
+interface Payload<T> extends Action {
+  payload: T;
 }
 
 const SET_SESSION = "SET_SESSION";
 
-export function setSession(payload?: SessionQuery): SessionAction {
+export function setSession(
+  payload?: SessionQuery
+): Payload<SessionQuery | undefined> {
   return {
     type: SET_SESSION,
     payload,
   };
 }
 
+const SET_CURRENCY = "SET_CURRENCY";
+
+export function setCurrency(payload: string): Payload<string> {
+  return {
+    type: SET_CURRENCY,
+    payload,
+  };
+}
+
 const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
+    case SET_CURRENCY: {
+      const { payload: currency } = action as Payload<string>;
+      return { ...state, currency };
+    }
     case SET_SESSION: {
-      const { payload: session } = action as SessionAction;
+      const { payload: session } = action as Payload<SessionQuery>;
       return { ...state, session };
     }
     default: {
@@ -34,7 +50,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
   }
 };
 
-const initialState = {};
+const initialState = { currency: "USD" };
 
 interface StoreType {
   state: State;
