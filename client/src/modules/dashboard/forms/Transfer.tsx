@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { Field, Form, Formik } from "formik";
 import { Send, SendVariables } from "types";
-import { ModalFormProps } from ".";
+import { AutocompleteAccountField } from ".";
 
 const transferMutation = gql`
   mutation Send($amount: Float!, $receiver: ID!) {
@@ -19,7 +19,7 @@ const transferMutation = gql`
   }
 `;
 
-export const TransferForm = (props: ModalFormProps) => {
+export const TransferForm = () => {
   const [mutate] = useMutation<Send, SendVariables>(transferMutation);
 
   const handleSubmit = async (variables: SendVariables) => {
@@ -32,12 +32,16 @@ export const TransferForm = (props: ModalFormProps) => {
       initialValues={{ receiver: "", amount: 5 }}
       onSubmit={handleSubmit}
     >
-      <Form>
-        <Field type="hidden" name="receiver" />
-        {/* <Field type="text" name="receiverName" placeholder="Receiver Name" /> */}
-        <Field type="number" name="amount" />
-        <button type="submit">Transfer</button>
-      </Form>
+      {({ setFieldValue }) => (
+        <Form>
+          <AutocompleteAccountField
+            name="receiver"
+            setFieldValue={setFieldValue}
+          />
+          <Field type="number" name="amount" />
+          <button type="submit">Transfer</button>
+        </Form>
+      )}
     </Formik>
   );
 };

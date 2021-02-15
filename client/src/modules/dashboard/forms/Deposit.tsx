@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { Field, Form, Formik } from "formik";
 import { Deposit, DepositVariables } from "types";
-import { AutocompleteAccount, ModalFormProps } from ".";
+import { AutocompleteAccountField } from ".";
 
 const depositMutation = gql`
   mutation Deposit($amount: Float!, $receiver: ID!) {
@@ -12,12 +12,12 @@ const depositMutation = gql`
   }
 `;
 
-export const DepositForm = (props: ModalFormProps) => {
+export const DepositForm = () => {
   const [mutate] = useMutation<Deposit, DepositVariables>(depositMutation);
 
   const handleSubmit = async (variables: DepositVariables) => {
-    // const deposit = await mutate({ variables });
-    console.log({ variables });
+    const deposit = await mutate({ variables });
+    console.log({ deposit });
   };
 
   return (
@@ -27,7 +27,10 @@ export const DepositForm = (props: ModalFormProps) => {
     >
       {({ setFieldValue }) => (
         <Form>
-          <AutocompleteAccount setFieldValue={setFieldValue} />
+          <AutocompleteAccountField
+            name="receiver"
+            setFieldValue={setFieldValue}
+          />
           <Field type="number" name="amount" />
           <button type="submit">Deposit</button>
         </Form>

@@ -6,6 +6,7 @@ import * as session from "express-session";
 
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
+import { seeds } from "./seeds";
 
 const startServer = async () => {
   const server = new ApolloServer({
@@ -15,6 +16,8 @@ const startServer = async () => {
   });
 
   await createConnection();
+
+  seeds();
 
   const app = express();
   app.use(

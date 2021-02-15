@@ -44,9 +44,12 @@ export const resolvers: IResolvers = {
       return await User.find({ take: limit, skip: offset });
     },
 
-    accounts: async (_, { limit, offset }, { req }) => {
-      offset ||= 0;
-      limit ||= 10;
+    accounts: async (_, { keywords, limit, offset }, { req }) => {
+      const skip = offset || 0;
+      const take = limit || 10;
+
+      const where: string =
+        keywords && keywords.length ? `email LIKE '%${keywords}%'` : `TRUE`;
 
       const { userId } = req.session;
 
@@ -54,7 +57,7 @@ export const resolvers: IResolvers = {
         throw new ForbiddenError("you don't have access to that information");
       }
 
-      return await User.find({ take: limit, skip: offset });
+      return await User.find({ take, skip, where });
     },
 
     account: async (_, { id }) => {
@@ -62,8 +65,8 @@ export const resolvers: IResolvers = {
     },
 
     transactions: async (_, { limit, offset }, { req }) => {
-      offset ||= 0;
-      limit ||= 10;
+      const skip = offset || 0;
+      const take = limit || 10;
 
       const { userId } = req.session;
 
@@ -71,7 +74,7 @@ export const resolvers: IResolvers = {
         throw new AuthenticationError("you must be logged in");
       }
 
-      return await Transaction.find({ take: limit, skip: offset });
+      return await Transaction.find({ take, skip });
     },
 
     transaction: async (_, { id }, { req }) => {

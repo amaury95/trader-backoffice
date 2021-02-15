@@ -3,6 +3,7 @@ import { Transaction } from "../entity/Transaction";
 import { User } from "../entity/User";
 import * as _ from "lodash";
 import { Role } from "../entity/Role";
+import { Money, Currencies } from "ts-money";
 
 export const defaultRole = async () => {
   const users = await User.find();
@@ -42,47 +43,49 @@ export const deposit = async (amount: number, sender: User, receiver: User) => {
   return transaction;
 };
 
-export const profit = async (amount: number, sender: User) => {
+export const profit = async (_amount: number, sender: User) => {
   const users = await User.find();
+  const amount = Money.fromDecimal(_amount, Currencies.USD, Math.ceil);
 
-  const balance = users
-    .map((u) => u.balance)
-    .reduce((acum, curr) => acum + curr);
+  const allocations = amount.allocate(users.map((u) => u.balance));
+
+  const incomes = allocations.map((a, i) => {
+    const receiver = users[i];
+    const fee = a.multiply(receiver.fee);
+    const income = a.subtract(fee);
+    return { receiver, income, fee };
+  });
+
+  const totalFee = incomes.reduce(
+    (prev, curr) => prev.add(curr.fee),
+    new Money(0, Currencies.USD)
+  );
+
+  console.log({
+    incomes: incomes.map((i) => i.income.toDecimal()),
+    totalFee: totalFee.toDecimal(),
+  });
 
   const transactions: Transaction[] = [];
 
-  for (const receiver of users) {
-    const participation = receiver.balance / balance;
-    const income = amount * participation;
-    const fee = receiver.fee * income;
+  for (let i = 0; i < incomes.length; i++) {
+    const { receiver, income } = incomes[i];
 
-    const receiverProfit = income - fee;
-    if (receiverProfit != 0) {
-      const transaction = await Transaction.create({
-        senderId: sender.id,
-        receiverId: receiver.id,
-        amount: receiverProfit,
-      }).save();
+    const amount = receiver.id === sender.id ? income.add(totalFee) : income;
 
-      receiver.balance += income - fee;
-      await receiver.save();
+    if (amount.toDecimal() === 0) continue;
 
-      transactions.push(transaction);
-    }
+    const transaction = await Transaction.create({
+      amount: amount.toDecimal(),
+      receiverId: receiver.id,
+      senderId: sender.id,
+    }).save();
 
-    const senderProfit = fee;
-    if (senderProfit != 0) {
-      const feeTransaction = await Transaction.create({
-        senderId: sender.id,
-        receiverId: sender.id,
-        amount: senderProfit,
-      }).save();
+    receiver.balance += amount.toDecimal();
 
-      sender.balance += fee;
-      await sender.save();
+    await receiver.save();
 
-      transactions.push(feeTransaction);
-    }
+    transactions.push(transaction);
   }
 
   return transactions;

@@ -160,6 +160,31 @@ export interface ProfitVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: FilterAccounts
+// ====================================================
+
+export interface FilterAccounts_accounts {
+  __typename: "User";
+  id: string;
+  name: string;
+  email: string | null;
+  balance: number | null;
+}
+
+export interface FilterAccounts {
+  accounts: FilterAccounts_accounts[] | null;
+}
+
+export interface FilterAccountsVariables {
+  keywords?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: Send
 // ====================================================
 

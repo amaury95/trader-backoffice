@@ -2,7 +2,6 @@ import { gql, useMutation } from "@apollo/client";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { ProfitVariables, Profit } from "types";
-import { ModalFormProps } from ".";
 
 const incomeMutation = gql`
   mutation Profit($amount: Float!) {
@@ -19,7 +18,7 @@ const incomeMutation = gql`
   }
 `;
 
-export const IncomeForm = (props: ModalFormProps) => {
+export const IncomeForm = () => {
   const [mutate] = useMutation<Profit, ProfitVariables>(incomeMutation);
 
   const handleSubmit = async (variables: ProfitVariables) => {
@@ -29,7 +28,7 @@ export const IncomeForm = (props: ModalFormProps) => {
 
   return (
     <Formik<ProfitVariables>
-      initialValues={{ amount: 5 }}
+      initialValues={{ amount: 1000 }}
       onSubmit={handleSubmit}
     >
       <Form>

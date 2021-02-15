@@ -22,6 +22,7 @@
     "lodash": "^4.17.20",
     "reflect-metadata": "^0.1.10",
     "sqlite3": "^4.0.3",
+    "ts-money": "^0.4.6",
     "typeorm": "0.2.31"
   },
   "scripts": {

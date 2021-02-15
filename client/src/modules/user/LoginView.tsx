@@ -41,7 +41,10 @@ export default function LoginView() {
     <div>
       <h2>Login</h2>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{
+          email: "aleximasso781@gmail.com",
+          password: "current",
+        }}
         onSubmit={handleSubmit}
       >
         <Form>
