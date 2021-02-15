@@ -105,3 +105,7 @@ dist
 
 # Database
 *.sqlite
+
+# SSL Certificates
+/certs/*
+!/certs/.keep

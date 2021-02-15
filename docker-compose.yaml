@@ -4,3 +4,6 @@ services:
     build: ./server
     ports:
       - "4000:4000"
+    volumes:
+      - ./server/db:/usr/src/app/db
+      - ./certs:/usr/src/certs

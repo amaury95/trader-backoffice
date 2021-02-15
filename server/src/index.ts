@@ -3,12 +3,17 @@ import { ApolloServer } from "apollo-server-express";
 import * as express from "express";
 import { createConnection } from "typeorm";
 import * as session from "express-session";
+import * as fs from "fs";
+import * as https from "https";
 
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
-import { seeds } from "./seeds";
 
 require("dotenv").config();
+
+const privateKey = fs.readFileSync("../certs/signature.key", "utf8");
+const certificate = fs.readFileSync("../certs/signature.crt", "utf8");
+const credentials = { key: privateKey, cert: certificate };
 
 const startServer = async () => {
   const server = new ApolloServer({
@@ -19,9 +24,8 @@ const startServer = async () => {
 
   await createConnection();
 
-  seeds();
-
   const app = express();
+
   app.use(
     session({ saveUninitialized: false, resave: false, secret: "SECRET_KEY " })
   );
@@ -31,6 +35,11 @@ const startServer = async () => {
       ? "http://localhost:3000"
       : "https://trader-admin.github.io";
 
+  const host =
+    process.env.NODE_ENV === "develop" ? "localhost" : "195.181.247.138";
+
+  const port = 4000;
+
   server.applyMiddleware({
     app,
     cors: {
@@ -39,8 +48,10 @@ const startServer = async () => {
     },
   });
 
-  app.listen({ port: 4000 }, () => {
-    console.log(`Server ready at http://localhost:4000${server.graphqlPath}`, {
+  const httpsServer = https.createServer(credentials, app);
+
+  httpsServer.listen(port, host, () => {
+    console.log(`server running on https://${host}:${port}/graphql`, {
       origin,
     });
   });
