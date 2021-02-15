@@ -41,12 +41,12 @@ export const typeDefs = gql`
   type Query {
     session: User
 
-    users(limit: Int, offset: Int): [UserInfo]
+    users(limit: Int, offset: Int): [UserInfo!]
 
-    accounts(limit: Int, offset: Int): [User]
+    accounts(limit: Int, offset: Int): [User!]
     account(id: ID!): User
 
-    transactions(limit: Int, offset: Int): [Transaction]
+    transactions(limit: Int, offset: Int): [Transaction!]
     transaction(id: ID!): Transaction
   }
 

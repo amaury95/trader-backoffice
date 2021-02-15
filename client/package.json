@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.9",
-    "@carbon/icons-react": "10.22.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -12,13 +11,13 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "carbon-components": "10.25.0",
-    "carbon-components-react": "7.25.0",
-    "carbon-icons": "7.0.7",
+    "bootstrap": "^4.6.0",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "lodash": "^4.17.20",
     "react": "^17.0.1",
+    "react-autosuggest": "^10.1.0",
+    "react-bootstrap": "^1.4.3",
     "react-currency-format": "^1.0.0",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -35,7 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "schema:load": "apollo schema:download --endpoint=http://localhost:4000/graphql graphql-schema.json",
-    "codegen:generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --outputFlat --queries=src/**/*.tsx src/types.ts",
+    "codegen:generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --outputFlat --queries=src/**/*.ts* src/types.ts",
     "codegen:types": "yarn schema:load && yarn codegen:generate"
   },
   "eslintConfig": {
@@ -57,9 +56,9 @@
     ]
   },
   "devDependencies": {
-    "@types/carbon-components-react": "^7.26.0",
     "@types/graphql": "^14.5.0",
     "@types/lodash": "^4.14.168",
+    "@types/react-autosuggest": "^10.1.1",
     "@types/react-router-dom": "^5.1.7",
     "apollo": "^2.32.1"
   }

@@ -35,19 +35,6 @@ export interface SessionQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: LogoutMutation
-// ====================================================
-
-export interface LogoutMutation {
-  logout: boolean;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: AccountQuery
 // ====================================================
 
@@ -85,6 +72,38 @@ export interface AccountQuery_session {
 
 export interface AccountQuery {
   session: AccountQuery_session | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: UsersQuery
+// ====================================================
+
+export interface UsersQuery_users {
+  __typename: "UserInfo";
+  id: string;
+  name: string;
+}
+
+export interface UsersQuery {
+  users: UsersQuery_users[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: LogoutMutation
+// ====================================================
+
+export interface LogoutMutation {
+  logout: boolean;
 }
 
 /* tslint:disable */

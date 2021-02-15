@@ -1,5 +1,4 @@
 import { gql, useMutation } from "@apollo/client";
-import { Button, FormGroup } from "carbon-components-react";
 import { Field, Form, Formik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 import { RegisterMutation, RegisterMutationVariables } from "types";
@@ -47,27 +46,25 @@ export default function RegisterView() {
         onSubmit={handleSubmit}
       >
         <Form>
-          <FormGroup legendText="Create a new acount">
-            <div className="form-input">
-              <Field type="email" name="email" placeholder="Email" />
-            </div>
-            <div className="form-input">
-              <Field type="name" name="name" placeholder="Full name" />
-            </div>
-            <div className="form-input">
-              <Field type="password" name="password" placeholder="Password" />
-            </div>
-            <div className="form-input">
-              <Field
-                type="password"
-                name="repeatPassword"
-                placeholder="Repeat Password"
-              />
-            </div>
-            <div className="form-input">
-              <Button type="submit">Submit</Button>
-            </div>
-          </FormGroup>
+          <div className="form-input">
+            <Field type="email" name="email" placeholder="Email" />
+          </div>
+          <div className="form-input">
+            <Field type="name" name="name" placeholder="Full name" />
+          </div>
+          <div className="form-input">
+            <Field type="password" name="password" placeholder="Password" />
+          </div>
+          <div className="form-input">
+            <Field
+              type="password"
+              name="repeatPassword"
+              placeholder="Repeat Password"
+            />
+          </div>
+          <div className="form-input">
+            <button type="submit">Submit</button>
+          </div>
         </Form>
       </Formik>
       <Link to="/session">Login</Link>
