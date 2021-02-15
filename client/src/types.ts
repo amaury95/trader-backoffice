@@ -160,22 +160,20 @@ export interface ProfitVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: FilterAccounts
+// GraphQL query operation: FilterUsers
 // ====================================================
 
-export interface FilterAccounts_accounts {
-  __typename: "User";
+export interface FilterUsers_users {
+  __typename: "UserInfo";
   id: string;
   name: string;
-  email: string | null;
-  balance: number | null;
 }
 
-export interface FilterAccounts {
-  accounts: FilterAccounts_accounts[] | null;
+export interface FilterUsers {
+  users: FilterUsers_users[] | null;
 }
 
-export interface FilterAccountsVariables {
+export interface FilterUsersVariables {
   keywords?: string | null;
 }
 

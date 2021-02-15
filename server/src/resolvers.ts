@@ -38,10 +38,14 @@ export const resolvers: IResolvers = {
       return await User.findOne(userId);
     },
 
-    users: async (_, { limit, offset }) => {
-      offset ||= 0;
-      limit ||= 10;
-      return await User.find({ take: limit, skip: offset });
+    users: async (_, { keywords, limit, offset }) => {
+      const skip = offset || 0;
+      const take = limit || 10;
+
+      const where: string =
+        keywords && keywords.length ? `name LIKE '%${keywords}%'` : `TRUE`;
+
+      return await User.find({ take, skip, where });
     },
 
     accounts: async (_, { keywords, limit, offset }, { req }) => {
@@ -49,7 +53,9 @@ export const resolvers: IResolvers = {
       const take = limit || 10;
 
       const where: string =
-        keywords && keywords.length ? `email LIKE '%${keywords}%'` : `TRUE`;
+        keywords && keywords.length
+          ? `name LIKE '%${keywords}%' OR email LIKE '%${keywords}%'`
+          : `TRUE`;
 
       const { userId } = req.session;
 

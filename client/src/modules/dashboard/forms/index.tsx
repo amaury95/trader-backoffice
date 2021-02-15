@@ -4,20 +4,18 @@ import { IncomeForm } from "./Income";
 import Autocomplete from "react-autocomplete";
 import { TransferForm } from "./Transfer";
 import { gql, useQuery } from "@apollo/client";
-import { FilterAccounts, FilterAccountsVariables } from "types";
+import { FilterUsers, FilterUsersVariables } from "types";
 
 interface Props {
   name: string;
   setFieldValue(field: string, value?: string): void;
 }
 
-const accountsFilter = gql`
-  query FilterAccounts($keywords: String) {
-    accounts(keywords: $keywords) {
+const usersFilter = gql`
+  query FilterUsers($keywords: String) {
+    users(keywords: $keywords) {
       id
       name
-      email
-      balance
     }
   }
 `;
@@ -28,24 +26,23 @@ export const AutocompleteAccountField = ({
 }: Props) => {
   const [keywords, setKeywords] = useState("");
 
-  const { data } = useQuery<FilterAccounts, FilterAccountsVariables>(
-    accountsFilter,
-    { variables: { keywords } }
-  );
+  const { data } = useQuery<FilterUsers, FilterUsersVariables>(usersFilter, {
+    variables: { keywords },
+  });
 
-  const items = data?.accounts || [];
+  const items = data?.users || [];
 
   return (
     <Autocomplete
       items={items}
-      getItemValue={(item) => item.email}
+      getItemValue={(item) => item.name}
       renderItem={(item, isHighlighted) => {
         return (
           <div
             key={item.id}
             style={{ background: isHighlighted ? "lightgray" : "white" }}
           >
-            {item.email}
+            {item.name}
           </div>
         );
       }}
@@ -53,7 +50,7 @@ export const AutocompleteAccountField = ({
       onChange={(e) => setKeywords(e.target.value)}
       onSelect={(val) => {
         setKeywords(val);
-        setFieldValue(field, items.find((e) => e.email === val)?.id);
+        setFieldValue(field, items.find((e) => e.name === val)?.id);
       }}
     />
   );
