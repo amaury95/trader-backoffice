@@ -10,6 +10,8 @@ import StoreProvider from "store";
 
 import "./index.css";
 
+require("dotenv").config();
+
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>

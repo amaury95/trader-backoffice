@@ -1,7 +1,14 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
+const uri =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:4000/graphql"
+    : "http://195.181.247.138:4000/graphql";
+
+console.log("getting data from:", uri);
+
 export const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
   credentials: "include",
+  uri,
 });

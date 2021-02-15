@@ -8,6 +8,8 @@ import { resolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
 import { seeds } from "./seeds";
 
+require("dotenv").config();
+
 const startServer = async () => {
   const server = new ApolloServer({
     typeDefs,
@@ -24,16 +26,23 @@ const startServer = async () => {
     session({ saveUninitialized: false, resave: false, secret: "SECRET_KEY " })
   );
 
+  const origin =
+    process.env.NODE_ENV === "develop"
+      ? "http://localhost:3000"
+      : "https://trader-admin.github.io";
+
   server.applyMiddleware({
     app,
     cors: {
       credentials: true,
-      origin: "http://localhost:3000",
+      origin,
     },
   });
 
   app.listen({ port: 4000 }, () => {
-    console.log(`Server ready at http://localhost:4000${server.graphqlPath}`);
+    console.log(`Server ready at http://localhost:4000${server.graphqlPath}`, {
+      origin,
+    });
   });
 };
 
