@@ -35,6 +35,27 @@ export interface SessionQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: AccountsQuery
+// ====================================================
+
+export interface AccountsQuery_accounts {
+  __typename: "User";
+  id: string;
+  name: string;
+  email: string | null;
+  balance: number | null;
+}
+
+export interface AccountsQuery {
+  accounts: AccountsQuery_accounts[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: AccountQuery
 // ====================================================
 
@@ -80,17 +101,94 @@ export interface AccountQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: UsersQuery
+// GraphQL mutation operation: Deposit
 // ====================================================
 
-export interface UsersQuery_users {
-  __typename: "UserInfo";
+export interface Deposit_deposit {
+  __typename: "Transaction";
   id: string;
+  amount: number;
+}
+
+export interface Deposit {
+  deposit: Deposit_deposit | null;
+}
+
+export interface DepositVariables {
+  amount: number;
+  receiver: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: Profit
+// ====================================================
+
+export interface Profit_profit_sender {
+  __typename: "User";
   name: string;
 }
 
-export interface UsersQuery {
-  users: UsersQuery_users[] | null;
+export interface Profit_profit_receiver {
+  __typename: "User";
+  name: string;
+}
+
+export interface Profit_profit {
+  __typename: "Transaction";
+  id: string;
+  amount: number;
+  sender: Profit_profit_sender;
+  receiver: Profit_profit_receiver;
+}
+
+export interface Profit {
+  profit: (Profit_profit | null)[] | null;
+}
+
+export interface ProfitVariables {
+  amount: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: Send
+// ====================================================
+
+export interface Send_send_sender {
+  __typename: "User";
+  name: string;
+}
+
+export interface Send_send_receiver {
+  __typename: "User";
+  name: string;
+}
+
+export interface Send_send {
+  __typename: "Transaction";
+  id: string;
+  amount: number;
+  created_at: string;
+  sender: Send_send_sender;
+  receiver: Send_send_receiver;
+}
+
+export interface Send {
+  send: Send_send | null;
+}
+
+export interface SendVariables {
+  amount: number;
+  receiver: string;
 }
 
 /* tslint:disable */

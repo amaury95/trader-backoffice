@@ -18,26 +18,29 @@ export const Navigation = () => {
 
   return (
     <>
+      <WithRoles roles={[1, 2, 3]}>
+        <TransferForm />
+      </WithRoles>
       <WithRoles roles={[3]}>
         <DepositForm />
         <IncomeForm />
-      </WithRoles>
-      <WithRoles roles={[1, 2, 3]}>
-        <TransferForm />
       </WithRoles>
       <ul>
         <li>
           <Link to="/">Trader Admin</Link>
         </li>
         <>
+          <li>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
           <WithRoles roles={[1, 2, 3]}>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard/users">Users</Link>
             </li>
           </WithRoles>
           <WithRoles roles={[2, 3]}>
             <li>
-              <Link to="/dashboard/users">Users</Link>
+              <Link to="/dashboard/accounts">Accounts</Link>
             </li>
           </WithRoles>
         </>
