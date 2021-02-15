@@ -35,8 +35,7 @@ const startServer = async () => {
       ? "http://localhost:3000"
       : "https://trader-admin.github.io";
 
-  const host =
-    process.env.NODE_ENV === "develop" ? "localhost" : "195.181.247.138";
+  const host = process.env.NODE_ENV === "develop" ? "localhost" : "0.0.0.0";
 
   const port = 4000;
 
