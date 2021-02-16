@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.9",
+    "@react-keycloak/web": "^3.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -17,6 +18,7 @@
     "dotenv": "^8.2.0",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
+    "keycloak-js": "^12.0.2",
     "lodash": "^4.17.20",
     "react": "^17.0.1",
     "react-autocomplete": "^1.8.1",

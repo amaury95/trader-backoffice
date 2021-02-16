@@ -1,24 +1,28 @@
 import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import ReactDOM from "react-dom";
+import { ReactKeycloakProvider } from "@react-keycloak/web";
+import { keycloak } from "keycloak";
+import dotenv from "dotenv";
 
-import { client } from "./apollo";
-import reportWebVitals from "./reportWebVitals";
-import Routes from "./Routes";
-
+import reportWebVitals from "reportWebVitals";
+import Routes from "Routes";
 import StoreProvider from "store";
+import { client } from "./apollo";
 
 import "./index.css";
 
-require("dotenv").config();
+dotenv.config();
 
 ReactDOM.render(
   <React.StrictMode>
-    <StoreProvider>
-      <ApolloProvider client={client}>
-        <Routes />
-      </ApolloProvider>
-    </StoreProvider>
+    <ReactKeycloakProvider authClient={keycloak}>
+      <StoreProvider>
+        <ApolloProvider client={client}>
+          <Routes />
+        </ApolloProvider>
+      </StoreProvider>
+    </ReactKeycloakProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

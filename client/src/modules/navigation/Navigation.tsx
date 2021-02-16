@@ -1,27 +1,20 @@
-import { setSession } from "store";
-
+import { useKeycloak } from "@react-keycloak/web";
+import { WithRoles } from "components/WithRoles";
 import { DepositForm, IncomeForm, TransferForm } from "modules/dashboard/forms";
-import { useNavigationData } from "./hooks";
 import { Link } from "react-router-dom";
-import { WithRoles } from "authentication/WithRoles";
 
 export const Navigation = () => {
-  const { history, state, dispatch, logout } = useNavigationData();
+  const { keycloak } = useKeycloak();
 
-  const handleLogout = async () => {
-    await logout();
-    dispatch(setSession(undefined));
-    history.push("/");
-  };
-
-  const session = state.session?.session;
+  const handleLogout = () => keycloak.logout();
+  const handleLogin = () => keycloak.login();
 
   return (
     <>
-      <WithRoles roles={[1, 2, 3]}>
+      <WithRoles roles={["investor"]}>
         <TransferForm />
       </WithRoles>
-      <WithRoles roles={[3]}>
+      <WithRoles roles={["admin"]}>
         <DepositForm />
         <IncomeForm />
       </WithRoles>
@@ -29,22 +22,20 @@ export const Navigation = () => {
         <li>
           <Link to="/">Trader Admin</Link>
         </li>
-        <>
+        <WithRoles roles={["admin", "accountant", "investor"]}>
           <li>
             <Link to="/dashboard">Dashboard</Link>
           </li>
-          <WithRoles roles={[1, 2, 3]}>
-            <li>
-              <Link to="/dashboard/users">Users</Link>
-            </li>
-          </WithRoles>
-          <WithRoles roles={[2, 3]}>
-            <li>
-              <Link to="/dashboard/accounts">Accounts</Link>
-            </li>
-          </WithRoles>
-        </>
-        {session ? (
+          <li>
+            <Link to="/dashboard/users">Users</Link>
+          </li>
+        </WithRoles>
+        <WithRoles roles={["admin", "accountant"]}>
+          <li>
+            <Link to="/dashboard/accounts">Accounts</Link>
+          </li>
+        </WithRoles>
+        {keycloak.authenticated ? (
           <>
             <li>
               <button onClick={handleLogout}>Logout</button>
@@ -53,14 +44,7 @@ export const Navigation = () => {
         ) : (
           <>
             <li>
-              <Link to="/session">
-                <button>Login</button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/session/register">
-                <button>Register</button>
-              </Link>
+              <button onClick={handleLogin}>Login</button>
             </li>
           </>
         )}

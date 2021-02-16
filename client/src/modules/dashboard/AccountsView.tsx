@@ -1,5 +1,4 @@
 import { gql, useQuery } from "@apollo/client";
-import { WithRoles } from "authentication/WithRoles";
 import { AccountsQuery } from "types";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -23,7 +22,7 @@ export default function AccountsView() {
   }
 
   return (
-    <WithRoles roles={[2, 3]}>
+    <div>
       <h2>Accounts</h2>
       <ul>
         {data.accounts.map((a, k) => (
@@ -40,6 +39,6 @@ export default function AccountsView() {
           </li>
         ))}
       </ul>
-    </WithRoles>
+    </div>
   );
 }
