@@ -1,36 +1,30 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
-  type Role {
-    value: Int!
-  }
-
-  enum RoleAction {
-    append
-    revoque
-  }
-
   type Transaction {
     id: ID!
     amount: Float!
-    sender: User!
-    receiver: User!
     created_at: String!
     updated_at: String!
+    edges: TransactionEdges!
+  }
+
+  type TransactionEdges {
+    sender: User!
+    receiver: User!
   }
 
   type User {
     id: ID!
     name: String!
-    balance: Float
-    email: String
-    edges: UserEdges
+    balance: Float!
+    email: String!
+    edges: UserEdges!
   }
 
   type UserEdges {
-    income: [Transaction!]
-    outcome: [Transaction!]
-    roles: [Role!]
+    income: [Transaction!]!
+    outcome: [Transaction!]!
   }
 
   type UserInfo {
@@ -51,14 +45,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    register(email: String!, name: String!, password: String!): Boolean!
-    login(email: String!, password: String!): User
-    logout: Boolean!
-
-    editRole(value: Int!, userId: Int!, action: RoleAction): Boolean!
-
     send(amount: Float!, receiverId: ID!): Transaction
     deposit(amount: Float!, receiverId: ID!): Transaction
-    profit(amount: Float!): [Transaction]
+    profit(amount: Float!): [Transaction!]
   }
 `;

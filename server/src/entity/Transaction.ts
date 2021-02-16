@@ -25,10 +25,10 @@ export class Transaction extends BaseEntity {
   updated_at: Date;
 
   @Column()
-  senderId: number;
+  senderId: string;
 
   @Column()
-  receiverId: number;
+  receiverId: string;
 
   @ManyToOne(() => User, (user) => user.outcome)
   @JoinColumn({ name: "senderId" })
@@ -38,6 +38,6 @@ export class Transaction extends BaseEntity {
   @JoinColumn({ name: "receiverId" })
   receiver: Promise<User>;
 
-  involve = (userId: number) =>
+  involve = (userId: string) =>
     userId === this.senderId || userId === this.receiverId;
 }

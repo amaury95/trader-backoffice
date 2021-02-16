@@ -2,13 +2,7 @@ import { ValidationError } from "apollo-server-express";
 import { Transaction } from "../entity/Transaction";
 import { User } from "../entity/User";
 import * as _ from "lodash";
-import { Role } from "../entity/Role";
 import { Money, Currencies } from "ts-money";
-
-export const defaultRole = async () => {
-  const users = await User.find();
-  return users.length ? Role.investor : Role.admin;
-};
 
 export const send = async (amount: number, sender: User, receiver: User) => {
   if (sender.balance < amount) {
@@ -89,4 +83,8 @@ export const profit = async (_amount: number, sender: User) => {
   }
 
   return transactions;
+};
+
+export const hasRoles = (realm_access: any, ...roles: string[]) => {
+  return roles.some((role) => realm_access.roles.includes(role));
 };

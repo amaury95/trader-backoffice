@@ -5,42 +5,57 @@ import {
   IResolvers,
   UserInputError,
 } from "apollo-server-express";
-import * as bcrypt from "bcryptjs";
 import { Transaction } from "./entity/Transaction";
-import { Role } from "./entity/Role";
 import { User } from "./entity/User";
 import * as UserController from "./controller/UserController";
 
 export const resolvers: IResolvers = {
   User: {
-    edges: async (parent: User): Promise<any> => ({
+    edges: async (parent: User) => ({
       outcome: (await parent.outcome).filter(
         (transaction) => transaction.receiverId !== parent.id
       ),
       income: await parent.income,
-      roles: await parent.roles,
     }),
   },
 
   Transaction: {
-    receiver: async (parent) => await parent.receiver,
-    sender: async (parent) => await parent.sender,
+    edges: async (parent: Transaction) => ({
+      receiver: await parent.receiver,
+      sender: await parent.sender,
+    }),
   },
 
   Query: {
-    session: async (_, __, { req }) => {
-      const { userId } = req.session;
-
-      if (!userId) {
-        return null;
+    session: async (_, __, { sub, name, email, email_verified }) => {
+      if (!sub) {
+        throw new UserInputError("you must be logged in");
       }
 
-      return await User.findOne(userId);
+      const user = await User.findOne(sub);
+
+      if (user) {
+        return user;
+      }
+
+      if (!email_verified) {
+        throw new UserInputError("you must verify your account first");
+      }
+
+      return await User.create({
+        id: sub,
+        balance: 0,
+        fee: 0.1,
+        email,
+        name,
+      }).save();
     },
 
-    users: async (_, { keywords, limit, offset }) => {
+    users: async (_, { keywords, limit, offset }, { sub }) => {
       const skip = offset || 0;
       const take = limit || 10;
+
+      if (!sub) throw new AuthenticationError("no access");
 
       const where: string =
         keywords && keywords.length ? `name LIKE '%${keywords}%'` : `TRUE`;
@@ -48,7 +63,7 @@ export const resolvers: IResolvers = {
       return await User.find({ take, skip, where });
     },
 
-    accounts: async (_, { keywords, limit, offset }, { req }) => {
+    accounts: async (_, { keywords, limit, offset }, { realm_access }) => {
       const skip = offset || 0;
       const take = limit || 10;
 
@@ -57,36 +72,33 @@ export const resolvers: IResolvers = {
           ? `name LIKE '%${keywords}%' OR email LIKE '%${keywords}%'`
           : `TRUE`;
 
-      const { userId } = req.session;
-
-      if (!(await User.hasRole(userId, Role.admin, Role.accountant))) {
+      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
         throw new ForbiddenError("you don't have access to that information");
       }
 
       return await User.find({ take, skip, where });
     },
 
-    account: async (_, { id }) => {
+    account: async (_, { id }, { realm_access }) => {
+      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
+        throw new AuthenticationError("no access");
+      }
       return await User.findOne(id);
     },
 
-    transactions: async (_, { limit, offset }, { req }) => {
+    transactions: async (_, { limit, offset }, { realm_access }) => {
       const skip = offset || 0;
       const take = limit || 10;
 
-      const { userId } = req.session;
-
-      if (!(await User.hasRole(userId, Role.accountant, Role.admin))) {
+      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
         throw new AuthenticationError("you must be logged in");
       }
 
       return await Transaction.find({ take, skip });
     },
 
-    transaction: async (_, { id }, { req }) => {
-      const { userId } = req.session;
-
-      if (!req.session.userId) {
+    transaction: async (_, { id }, { sub, realm_access }) => {
+      if (!sub) {
         throw new AuthenticationError("you must be logged in");
       }
 
@@ -94,8 +106,8 @@ export const resolvers: IResolvers = {
 
       if (
         !transaction ||
-        !transaction.involve(userId) ||
-        !User.hasRole(userId, Role.accountant, Role.admin)
+        !transaction.involve(sub) ||
+        !UserController.hasRoles(realm_access, "admin", "accountant")
       ) {
         throw new ForbiddenError(
           "you dont have permission to access this transaction"
@@ -107,70 +119,8 @@ export const resolvers: IResolvers = {
   },
 
   Mutation: {
-    register: async (_, { email, name, password }) => {
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const user = await User.create({
-        password: hashedPassword,
-        balance: 0,
-        fee: 0.05,
-        email,
-        name,
-      }).save();
-
-      await Role.create({
-        value: await UserController.defaultRole(),
-        user,
-      }).save();
-
-      return true;
-    },
-
-    login: async (_, { email, password }, { req }) => {
-      const user = await User.findOne({ where: { email } });
-      if (!user) {
-        throw new UserInputError("there is not a user with that email.");
-      }
-
-      const valid = await bcrypt.compare(password, user.password);
-      if (!valid) {
-        throw new UserInputError("incorrect password.");
-      }
-
-      req.session.userId = user.id;
-
-      return user;
-    },
-
-    logout: (_, __, { req }) => {
-      req.session.userId = 0;
-      return true;
-    },
-
-    editRole: async (_, { value, userId, action }, { req }) => {
-      if (!(await User.hasRole(req.session.userID, Role.admin))) {
-        throw new ForbiddenError("user can not perform this action");
-      }
-
-      if (action === "append") {
-        await Role.create({ value, userId }).save();
-        return true;
-      } else if (action === "revoque") {
-        const role = await Role.findOne({ where: { value, userId } });
-        if (role) {
-          await role.remove();
-          return true;
-        }
-
-        return false;
-      }
-
-      throw new UserInputError("invalida action");
-    },
-
-    send: async (_, { amount, receiverId }, { req }) => {
-      const { userId } = req.session;
-      const sender = await User.findOne(userId);
+    send: async (_, { amount, receiverId }, { sub }) => {
+      const sender = await User.findOne(sub);
       const receiver = await User.findOne(receiverId);
 
       if (!sender || !receiver) {
@@ -180,31 +130,29 @@ export const resolvers: IResolvers = {
       return await UserController.send(amount, sender, receiver);
     },
 
-    deposit: async (_, { amount, receiverId }, { req }) => {
-      const { userId } = req.session;
-      const sender = await User.findOne(userId);
+    deposit: async (_, { amount, receiverId }, { sub, realm_access }) => {
+      const sender = await User.findOne(sub);
       const receiver = await User.findOne(receiverId);
 
       if (!sender || !receiver) {
         throw new ValidationError("error in user input");
       }
 
-      if (!(await sender.hasRole(Role.admin))) {
+      if (UserController.hasRoles(realm_access, "admin")) {
         throw new ForbiddenError("user can not perform action");
       }
 
       return await UserController.deposit(amount, sender, receiver);
     },
 
-    profit: async (_, { amount }, { req }) => {
-      const { userId } = req.session;
-      const sender = await User.findOne(userId);
+    profit: async (_, { amount }, { sub, realm_access }) => {
+      const sender = await User.findOne(sub);
 
       if (!sender) {
         throw new ValidationError("error in user input");
       }
 
-      if (!(await sender.hasRole(Role.admin))) {
+      if (UserController.hasRoles(realm_access, "admin")) {
         throw new ForbiddenError("user can not perform action");
       }
 
