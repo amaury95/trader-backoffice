@@ -55,27 +55,25 @@ export const profit = async (_amount: number, sender: User) => {
     new Money(0, Currencies.USD)
   );
 
-  console.log({
-    incomes: incomes.map((i) => i.income.toDecimal()),
-    totalFee: totalFee.toDecimal(),
-  });
-
   const transactions: Transaction[] = [];
 
-  for (let i = 0; i < incomes.length; i++) {
-    const { receiver, income } = incomes[i];
+  for (const element of incomes) {
+    const { receiver, income } = element;
 
-    const amount = receiver.id === sender.id ? income.add(totalFee) : income;
+    const value = (receiver.id === sender.id
+      ? income.add(totalFee)
+      : income
+    ).toDecimal();
 
-    if (amount.toDecimal() === 0) continue;
+    if (value === 0) continue;
 
     const transaction = await Transaction.create({
-      amount: amount.toDecimal(),
+      amount: value,
       receiverId: receiver.id,
       senderId: sender.id,
     }).save();
 
-    receiver.balance += amount.toDecimal();
+    receiver.balance += value;
 
     await receiver.save();
 
@@ -85,6 +83,6 @@ export const profit = async (_amount: number, sender: User) => {
   return transactions;
 };
 
-export const hasRoles = (realm_access: any, ...roles: string[]) => {
-  return roles.some((role) => realm_access.roles.includes(role));
+export const hasRoles = (realmAccess: any, ...roles: string[]) => {
+  return roles.some((role) => realmAccess.roles.includes(role));
 };

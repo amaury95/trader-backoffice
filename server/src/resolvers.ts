@@ -138,7 +138,7 @@ export const resolvers: IResolvers = {
         throw new ValidationError("error in user input");
       }
 
-      if (UserController.hasRoles(realm_access, "admin")) {
+      if (!UserController.hasRoles(realm_access, "admin")) {
         throw new ForbiddenError("user can not perform action");
       }
 
@@ -152,7 +152,7 @@ export const resolvers: IResolvers = {
         throw new ValidationError("error in user input");
       }
 
-      if (UserController.hasRoles(realm_access, "admin")) {
+      if (!UserController.hasRoles(realm_access, "admin")) {
         throw new ForbiddenError("user can not perform action");
       }
 

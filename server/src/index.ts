@@ -29,6 +29,7 @@ const startServer = async () => {
   });
 
   app.listen(4000, () => {
+    // tslint:disable-next-line:no-console
     console.log(`server running on http://localhost:4000/graphql`);
   });
 };

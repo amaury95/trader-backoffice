@@ -4,8 +4,8 @@ export const typeDefs = gql`
   type Transaction {
     id: ID!
     amount: Float!
-    created_at: String!
-    updated_at: String!
+    createdAt: String!
+    updatedAt: String!
     edges: TransactionEdges!
   }
 

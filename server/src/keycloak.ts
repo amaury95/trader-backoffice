@@ -1,11 +1,11 @@
 import axios from "axios";
 import { JWK, JWS } from "node-jose";
 
-const jwks_address =
+const jwksAddress =
   "http://localhost:8180/auth/realms/TraderAdmin/protocol/openid-connect/certs";
 
 export const KeycloakSession = async () => {
-  const jwks = await axios.get(jwks_address);
+  const jwks = await axios.get(jwksAddress);
   const keystore = JWK.createKeyStore();
 
   jwks.data.keys.forEach((key: any) => {

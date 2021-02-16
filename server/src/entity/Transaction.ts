@@ -19,10 +19,10 @@ export class Transaction extends BaseEntity {
   amount: number;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 
   @Column()
   senderId: string;
