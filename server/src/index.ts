@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
-import * as express from "express";
+import express from "express";
 import { createConnection } from "typeorm";
 
 import { resolvers } from "./resolvers";
