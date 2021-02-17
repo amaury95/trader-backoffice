@@ -9,6 +9,7 @@ services:
       KEYCLOAK_IMPORT: /tmp/realm.json
     volumes:
       - ./config/keycloak/trader-admin-realm.json:/tmp/realm.json
+    env_file: .env
 
   apollo:
     build: ./server
@@ -18,6 +19,7 @@ services:
     volumes:
       - ./server/db:/usr/src/app/db
       - ./certs:/usr/src/certs
+    env_file: .env
 
   nginx:
     build: ./client
@@ -25,4 +27,6 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./config/nginx:/etx/nginx/conf.d
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./config/certs:/certs
+    env_file: .env
