@@ -10,7 +10,7 @@ services:
     volumes:
       - ./config/keycloak/trader-admin-realm.json:/tmp/realm.json
 
-  server:
+  apollo:
     build: ./server
     restart: unless-stopped
     ports:
