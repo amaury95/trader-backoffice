@@ -44,9 +44,9 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 create a `.env` file inside project folder with the following content:
 
 ```sh
-KEYCLOAK_REDIRECT=http://localhost:8180/auth
-KEYCLOAK_CLIENT_ID=web-client
-KEYCLOAK_REALM=TraderAdmin
+REACT_APP_KEYCLOAK_REDIRECT=http://localhost:8180/auth
+REACT_APP_KEYCLOAK_CLIENT_ID=web-client
+REACT_APP_KEYCLOAK_REALM=TraderAdmin
 
-SERVER_ADDRESS=http://localhost:4000/graphql
+REACT_APP_SERVER_ADDRESS=http://localhost:4000/graphql
 ```
