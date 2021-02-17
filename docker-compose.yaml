@@ -5,11 +5,13 @@ services:
     restart: unless-stopped
     ports:
       - 8180:8080
-    environment:
-      KEYCLOAK_IMPORT: /tmp/realm.json
     volumes:
       - ./config/keycloak/trader-admin-realm.json:/tmp/realm.json
-    env_file: .env
+    environment:
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_IMPORT: /tmp/realm.json
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
 
   apollo:
     build: ./server
@@ -17,16 +19,25 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - ./server/db:/usr/src/app/db
+      - ./db:/usr/src/app/db
       - ./certs:/usr/src/certs
-    env_file: .env
+    environment:
+      KEYCLOAK_ADDRESS: ${KEYCLOAK_ADDRESS}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN}
+      SERVER_PORT: ${SERVER_PORT}
+      SERVER_HOST: ${SERVER_HOST}
+      NODE_ENV: ${NODE_ENV}
 
   nginx:
     build: ./client
     restart: unless-stopped
     ports:
       - 80:80
+      - 443:443
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
       - ./config/certs:/certs
-    env_file: .env
+    depends_on:
+      - keycloak
+      - apollo

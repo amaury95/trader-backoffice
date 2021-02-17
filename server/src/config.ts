@@ -14,3 +14,5 @@ export const origin = process.env.CLIENT_ORIGIN || "http://localhost:3000";
 export const port = process.env.SERVER_PORT || "4000";
 
 export const host = process.env.SERVER_HOST || "localhost";
+
+console.log({ origin, host, port, keycloakAddress, keycloakRealm });

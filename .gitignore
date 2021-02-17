@@ -112,4 +112,4 @@ dist
 
 # Environment Variables
 /config/env/*
-!config/env/.env.dev
+!config/env/.env.local
