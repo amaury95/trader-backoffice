@@ -1,8 +1,18 @@
 import axios from "axios";
 import { JWK, JWS } from "node-jose";
 
-const jwksAddress =
-  "http://localhost:8180/auth/realms/TraderAdmin/protocol/openid-connect/certs";
+import { keycloakAddress, keycloakRealm } from "./config";
+
+export interface Payload {
+  sub: string;
+  name: string;
+  email: string;
+  realm_access: {
+    roles: string[];
+  };
+}
+
+const jwksAddress = `${keycloakAddress}/auth/realms/${keycloakRealm}/protocol/openid-connect/certs`;
 
 export const KeycloakSession = async () => {
   const jwks = await axios.get(jwksAddress);
@@ -14,7 +24,7 @@ export const KeycloakSession = async () => {
 
   const verifier = JWS.createVerify(keystore);
 
-  return async (jwt: string) => {
+  return async (jwt: string): Promise<Payload> => {
     const { payload } = await verifier.verify(jwt);
 
     return JSON.parse(payload.toString());

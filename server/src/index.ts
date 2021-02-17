@@ -1,11 +1,13 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
-import express from "express";
+import * as express from "express";
 import { createConnection } from "typeorm";
 
 import { resolvers } from "./resolvers";
 import { typeDefs } from "./typeDefs";
 import { KeycloakSession } from "./keycloak";
+
+import { host, port, origin } from "./config";
 
 const startServer = async () => {
   const keycloak = await KeycloakSession();
@@ -24,13 +26,13 @@ const startServer = async () => {
     app,
     cors: {
       credentials: true,
-      origin: "http://localhost:3000",
+      origin,
     },
   });
 
-  app.listen(4000, () => {
+  app.listen(parseInt(port, 10), () => {
     // tslint:disable-next-line:no-console
-    console.log(`server running on http://localhost:4000/graphql`);
+    console.log(`server running on http://${host}:${port}/graphql`);
   });
 };
 
