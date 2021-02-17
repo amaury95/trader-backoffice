@@ -12,7 +12,7 @@ export interface Payload {
   };
 }
 
-const jwksAddress = `${keycloakAddress}/auth/realms/${keycloakRealm}/protocol/openid-connect/certs`;
+const jwksAddress = `${keycloakAddress}/realms/${keycloakRealm}/protocol/openid-connect/certs`;
 
 export const KeycloakSession = async () => {
   const jwks = await axios.get(jwksAddress);

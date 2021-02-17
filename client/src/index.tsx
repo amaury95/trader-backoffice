@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import { keycloak } from "keycloak";
-import dotenv from "dotenv";
 
 import reportWebVitals from "reportWebVitals";
 import Routes from "Routes";
@@ -11,8 +10,6 @@ import StoreProvider from "store";
 import { client } from "./apollo";
 
 import "./index.css";
-
-dotenv.config();
 
 ReactDOM.render(
   <React.StrictMode>

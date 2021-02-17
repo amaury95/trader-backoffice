@@ -109,3 +109,7 @@ dist
 # SSL Certificates
 /certs/*
 !/certs/.keep
+
+# Environment Variables
+/config/env/*
+!config/env/.dev.env
