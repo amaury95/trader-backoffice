@@ -107,8 +107,8 @@ dist
 *.sqlite
 
 # SSL Certificates
-/certs/*
-!/certs/.keep
+/config/certs/*
+!/config/certs/.keep
 
 # Environment Variables
 /config/env/*
