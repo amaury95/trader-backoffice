@@ -3,10 +3,8 @@ services:
   keycloak:
     image: jboss/keycloak:12.0.2
     restart: unless-stopped
-    ports:
-      - 8180:8080
     volumes:
-      - ./config/keycloak/trader-admin-realm.json:/tmp/realm.json
+      - ./config/keycloak/realm-export.json:/tmp/realm.json
     environment:
       PROXY_ADDRESS_FORWARDING: "true"
       KEYCLOAK_IMPORT: /tmp/realm.json
@@ -16,8 +14,6 @@ services:
   apollo:
     build: ./server
     restart: unless-stopped
-    ports:
-      - 4000:4000
     volumes:
       - ./db:/usr/src/app/db
       - ./certs:/usr/src/certs
@@ -34,7 +30,6 @@ services:
     restart: unless-stopped
     ports:
       - 80:80
-      - 443:443
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
       - ./config/certs:/certs
