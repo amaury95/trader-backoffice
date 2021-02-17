@@ -3,4 +3,4 @@ WORKDIR /usr/src/app
 ADD . .
 RUN npm install
 EXPOSE 4000
-ENTRYPOINT npm start
+ENTRYPOINT npm run serve
