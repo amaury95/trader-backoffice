@@ -103,16 +103,15 @@ dist
 # TernJS port file
 .tern-port
 
-# Database
-*.sqlite
-
 # SSL Certificates
 /config/certs/*
 !/config/certs/.keep
 
 # Environment Variables
 /config/env/*
-!config/env/.env.local
+!/config/env/.env.local
 
 # Databases
-/db/
+/db/server/*
+/db/keycloak/content/*
+!/db/keycloak/content/.keep
