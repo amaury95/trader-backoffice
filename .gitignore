@@ -113,3 +113,6 @@ dist
 # Environment Variables
 /config/env/*
 !config/env/.env.local
+
+# Databases
+/db/

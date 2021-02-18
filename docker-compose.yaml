@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/keycloak:/opt/jboss/keycloak/realm-config
+      - ./db/keycloak:/opt/jboss/keycloak/standalone/data/
     command:
       [
         "-b",
@@ -24,7 +25,7 @@ services:
     build: ./server
     restart: unless-stopped
     volumes:
-      - ./db:/usr/src/app/db
+      - ./db/server:/usr/src/app/db
       - ./certs:/usr/src/certs
     environment:
       KEYCLOAK_ADDRESS: ${KEYCLOAK_ADDRESS}
