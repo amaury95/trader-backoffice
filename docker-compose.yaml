@@ -18,8 +18,8 @@ services:
       ]
     environment:
       PROXY_ADDRESS_FORWARDING: "true"
-      KEYCLOAK_USER: ${KEYCLOAK_USER}
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      # KEYCLOAK_USER: ${KEYCLOAK_USER}
+      # KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
 
   apollo:
     build: ./server
