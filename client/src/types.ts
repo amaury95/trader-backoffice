@@ -13,10 +13,64 @@ export interface AccountsQuery_accounts {
   name: string;
   email: string;
   balance: number;
+  fee: number;
 }
 
 export interface AccountsQuery {
   accounts: AccountsQuery_accounts[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: AccountQuery
+// ====================================================
+
+export interface AccountQuery_account {
+  __typename: "User";
+  id: string;
+  name: string;
+  balance: number;
+  fee: number;
+  email: string;
+}
+
+export interface AccountQuery {
+  account: AccountQuery_account | null;
+}
+
+export interface AccountQueryVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: FeeMutation
+// ====================================================
+
+export interface FeeMutation_fee {
+  __typename: "User";
+  id: string;
+  name: string;
+  balance: number;
+  fee: number;
+  email: string;
+}
+
+export interface FeeMutation {
+  fee: FeeMutation_fee | null;
+}
+
+export interface FeeMutationVariables {
+  id: string;
+  fee: number;
 }
 
 /* tslint:disable */

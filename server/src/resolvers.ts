@@ -119,6 +119,22 @@ export const resolvers: IResolvers = {
   },
 
   Mutation: {
+    fee: async (_, { fee, userId }, { realm_access }) => {
+      if (!UserController.hasRoles(realm_access, "admin")) {
+        throw new AuthenticationError("no access");
+      }
+
+      const user = await User.findOne(userId);
+
+      if (!user) {
+        throw new UserInputError("invalid userId");
+      }
+
+      user.fee = fee;
+
+      return await user.save();
+    },
+
     send: async (_, { amount, receiverId }, { sub }) => {
       const sender = await User.findOne(sub);
       const receiver = await User.findOne(receiverId);

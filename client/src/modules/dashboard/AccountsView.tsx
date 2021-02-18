@@ -10,6 +10,7 @@ const accountsQuery = gql`
       name
       email
       balance
+      fee
     }
   }
 `;
@@ -32,8 +33,9 @@ export default function AccountsView() {
               <li>{a.name}</li>
               <li>{a.email}</li>
               <li>{a.balance}</li>
+              <li>{a.fee}</li>
               <li>
-                <Link to={`/dashboard/account/${a.id}`}>View Details</Link>
+                <Link to={`/dashboard/accounts/${a.id}`}>View Details</Link>
               </li>
             </ul>
           </li>
