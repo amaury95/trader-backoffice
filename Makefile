@@ -20,6 +20,6 @@ deploy-apollo:
 deploy-keycloak: keycloak-content
 	@$(call deploy_service,keycloak)
  
-deploy: tls db deploy-keycloak deploy-apollo deploy-nginx
+deploy: tls deploy-keycloak deploy-apollo deploy-nginx
 
  
