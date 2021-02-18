@@ -8,6 +8,5 @@ services:
       - 8180:8080
       - 8443:8443
     environment:
-      PROXY_ADDRESS_FORWARDING: "true"
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: current
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}

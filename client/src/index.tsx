@@ -1,7 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import ReactDOM from "react-dom";
-import { ReactKeycloakProvider } from "@react-keycloak/web";
+import { ReactKeycloakProvider, useKeycloak } from "@react-keycloak/web";
 import { keycloak } from "keycloak";
 
 import reportWebVitals from "reportWebVitals";
@@ -11,14 +11,21 @@ import { client } from "./apollo";
 
 import "./index.css";
 
+const App = () => {
+  const { keycloak } = useKeycloak();
+  return (
+    <StoreProvider>
+      <ApolloProvider client={client(keycloak.token)}>
+        <Routes />
+      </ApolloProvider>
+    </StoreProvider>
+  );
+};
+
 ReactDOM.render(
   <React.StrictMode>
     <ReactKeycloakProvider authClient={keycloak}>
-      <StoreProvider>
-        <ApolloProvider client={client}>
-          <Routes />
-        </ApolloProvider>
-      </StoreProvider>
+      <App />
     </ReactKeycloakProvider>
   </React.StrictMode>,
   document.getElementById("root")

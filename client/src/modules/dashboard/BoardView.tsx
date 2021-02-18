@@ -12,23 +12,18 @@ import { CurrencyDisplay } from "components/CurrencyDisplay";
 //   CartesianGrid,
 // } from "recharts";
 
-const query = gql`
-  query AccountQuery {
+const sessionQuery = gql`
+  query Session {
     session {
       balance
       edges {
         income {
-          id
           amount
-          created_at
+          createdAt
         }
         outcome {
-          id
           amount
-          created_at
-        }
-        roles {
-          value
+          createdAt
         }
       }
     }
@@ -37,7 +32,7 @@ const query = gql`
 
 export default function BoardView() {
   const { state } = useContext(Store);
-  const { data, loading } = useQuery<AccountQuery>(query);
+  const { data, loading } = useQuery<AccountQuery>(sessionQuery);
 
   if (loading || !data) {
     return <div>loading...</div>;
