@@ -87,21 +87,21 @@ export interface DepositVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: Profit
+// GraphQL mutation operation: Income
 // ====================================================
 
-export interface Profit_profit {
+export interface Income_income {
   __typename: "Transaction";
   id: string;
   amount: number;
   createdAt: string;
 }
 
-export interface Profit {
-  profit: Profit_profit[] | null;
+export interface Income {
+  income: Income_income[] | null;
 }
 
-export interface ProfitVariables {
+export interface IncomeVariables {
   amount: number;
 }
 

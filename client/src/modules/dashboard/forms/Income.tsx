@@ -1,11 +1,11 @@
 import { gql, useMutation } from "@apollo/client";
 import { Field, Form, Formik } from "formik";
 import React from "react";
-import { ProfitVariables, Profit } from "types";
+import { IncomeVariables, Income } from "types";
 
 const incomeMutation = gql`
-  mutation Profit($amount: Float!) {
-    profit(amount: $amount) {
+  mutation Income($amount: Float!) {
+    income(amount: $amount) {
       id
       amount
       createdAt
@@ -14,15 +14,15 @@ const incomeMutation = gql`
 `;
 
 export const IncomeForm = () => {
-  const [mutate] = useMutation<Profit, ProfitVariables>(incomeMutation);
+  const [mutate] = useMutation<Income, IncomeVariables>(incomeMutation);
 
-  const handleSubmit = async (variables: ProfitVariables) => {
+  const handleSubmit = async (variables: IncomeVariables) => {
     const transaction = await mutate({ variables });
     console.log({ transaction });
   };
 
   return (
-    <Formik<ProfitVariables>
+    <Formik<IncomeVariables>
       initialValues={{ amount: 1000 }}
       onSubmit={handleSubmit}
     >

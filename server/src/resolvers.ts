@@ -145,7 +145,7 @@ export const resolvers: IResolvers = {
       return await UserController.deposit(amount, sender, receiver);
     },
 
-    profit: async (_, { amount }, { sub, realm_access }) => {
+    income: async (_, { amount }, { sub, realm_access }) => {
       const sender = await User.findOne(sub);
 
       if (!sender) {
@@ -156,7 +156,7 @@ export const resolvers: IResolvers = {
         throw new ForbiddenError("user can not perform action");
       }
 
-      return await UserController.profit(amount, sender);
+      return await UserController.income(amount, sender);
     },
   },
 };

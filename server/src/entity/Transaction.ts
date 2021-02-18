@@ -18,6 +18,9 @@ export class Transaction extends BaseEntity {
   @Column({ type: "double" })
   amount: number;
 
+  @Column()
+  type: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

@@ -12,6 +12,7 @@ export const send = async (amount: number, sender: User, receiver: User) => {
   const transaction = await Transaction.create({
     receiverId: receiver.id,
     senderId: sender.id,
+    type: "transaction",
     amount,
   }).save();
 
@@ -28,6 +29,7 @@ export const deposit = async (amount: number, sender: User, receiver: User) => {
   const transaction = await Transaction.create({
     receiverId: receiver.id,
     senderId: sender.id,
+    type: "deposit",
     amount,
   }).save();
 
@@ -37,7 +39,7 @@ export const deposit = async (amount: number, sender: User, receiver: User) => {
   return transaction;
 };
 
-export const profit = async (_amount: number, sender: User) => {
+export const income = async (_amount: number, sender: User) => {
   const users = await User.find();
   const amount = Money.fromDecimal(_amount, Currencies.USD, Math.ceil);
 
@@ -68,9 +70,10 @@ export const profit = async (_amount: number, sender: User) => {
     if (value === 0) continue;
 
     const transaction = await Transaction.create({
-      amount: value,
       receiverId: receiver.id,
       senderId: sender.id,
+      amount: value,
+      type: "income",
     }).save();
 
     receiver.balance += value;

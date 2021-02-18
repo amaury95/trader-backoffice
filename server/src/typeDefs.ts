@@ -1,9 +1,16 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
+  enum TransactionType {
+    income
+    deposit
+    transaction
+  }
+
   type Transaction {
     id: ID!
     amount: Float!
+    type: TransactionType!
     createdAt: String!
     updatedAt: String!
     edges: TransactionEdges!
@@ -47,6 +54,6 @@ export const typeDefs = gql`
   type Mutation {
     send(amount: Float!, receiverId: ID!): Transaction
     deposit(amount: Float!, receiverId: ID!): Transaction
-    profit(amount: Float!): [Transaction!]
+    income(amount: Float!): [Transaction!]
   }
 `;
