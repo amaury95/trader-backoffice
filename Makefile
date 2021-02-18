@@ -8,7 +8,7 @@ db:
 	@mkdir -p db/keycloak/content
 
 define deploy_service
-	docker-compose --env-file config/env/.env.deploy up -d --build $(1)
+	docker-compose up -d --build $(1)
 endef
 
 deploy-nginx:
