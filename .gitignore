@@ -112,6 +112,4 @@ dist
 !/config/env/.env.local
 
 # Databases
-/db/server/*
-/db/keycloak/content/*
-!/db/keycloak/content/.keep
+/db/*
