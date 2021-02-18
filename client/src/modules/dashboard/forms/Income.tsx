@@ -8,12 +8,7 @@ const incomeMutation = gql`
     profit(amount: $amount) {
       id
       amount
-      sender {
-        name
-      }
-      receiver {
-        name
-      }
+      createdAt
     }
   }
 `;

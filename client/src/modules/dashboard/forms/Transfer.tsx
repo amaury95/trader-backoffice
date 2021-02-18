@@ -8,13 +8,7 @@ const transferMutation = gql`
     send(amount: $amount, receiverId: $receiver) {
       id
       amount
-      created_at
-      sender {
-        name
-      }
-      receiver {
-        name
-      }
+      createdAt
     }
   }
 `;

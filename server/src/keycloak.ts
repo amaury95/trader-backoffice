@@ -24,9 +24,13 @@ export const KeycloakSession = async () => {
 
   const verifier = JWS.createVerify(keystore);
 
-  return async (jwt: string): Promise<Payload> => {
-    const { payload } = await verifier.verify(jwt);
+  return async (jwt?: string): Promise<Payload | null> => {
+    if (jwt) {
+      const { payload } = await verifier.verify(jwt);
 
-    return JSON.parse(payload.toString());
+      return JSON.parse(payload.toString());
+    }
+
+    return null;
   };
 };

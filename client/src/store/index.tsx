@@ -1,8 +1,6 @@
 import { createContext, FunctionComponent, Reducer, useReducer } from "react";
-import { SessionQuery } from "types";
 
 interface State {
-  session?: SessionQuery;
   currency: string;
 }
 
@@ -13,18 +11,6 @@ interface Action {
 interface Payload<T> extends Action {
   payload: T;
 }
-
-const SET_SESSION = "SET_SESSION";
-
-export function setSession(
-  payload?: SessionQuery
-): Payload<SessionQuery | undefined> {
-  return {
-    type: SET_SESSION,
-    payload,
-  };
-}
-
 const SET_CURRENCY = "SET_CURRENCY";
 
 export function setCurrency(payload: string): Payload<string> {
@@ -39,10 +25,6 @@ const reducer: Reducer<State, Action> = (state, action) => {
     case SET_CURRENCY: {
       const { payload: currency } = action as Payload<string>;
       return { ...state, currency };
-    }
-    case SET_SESSION: {
-      const { payload: session } = action as Payload<SessionQuery>;
-      return { ...state, session };
     }
     default: {
       return state;

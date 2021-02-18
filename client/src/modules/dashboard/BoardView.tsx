@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { AccountQuery } from "types";
+import { Session } from "types";
 import { useContext } from "react";
 import { Store } from "store";
 import { CurrencyDisplay } from "components/CurrencyDisplay";
@@ -32,7 +32,7 @@ const sessionQuery = gql`
 
 export default function BoardView() {
   const { state } = useContext(Store);
-  const { data, loading } = useQuery<AccountQuery>(sessionQuery);
+  const { data, loading } = useQuery<Session>(sessionQuery);
 
   if (loading || !data) {
     return <div>loading...</div>;

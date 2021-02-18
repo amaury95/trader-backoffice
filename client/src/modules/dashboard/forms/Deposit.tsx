@@ -8,6 +8,7 @@ const depositMutation = gql`
     deposit(amount: $amount, receiverId: $receiver) {
       id
       amount
+      createdAt
     }
   }
 `;
