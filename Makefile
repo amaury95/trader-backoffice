@@ -11,15 +11,15 @@ define deploy_service
 	docker-compose up -d --build $(1)
 endef
 
-deploy-nginx:
+nginx:
 	@$(call deploy_service,nginx)
 
-deploy-apollo:
+apollo:
 	@$(call deploy_service,apollo)
 
-deploy-keycloak: keycloak-content
+keycloak: keycloak-content
 	@$(call deploy_service,keycloak)
  
-deploy: tls deploy-keycloak deploy-apollo deploy-nginx
+deploy: tls keycloak apollo nginx
 
  
