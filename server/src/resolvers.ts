@@ -57,8 +57,11 @@ export const resolvers: IResolvers = {
 
       if (!sub) throw new AuthenticationError("no access");
 
-      const where: string =
-        keywords && keywords.length ? `name LIKE '%${keywords}%'` : `TRUE`;
+      let where: string = `id NOT IN ( '${sub}' )`;
+
+      if (keywords && keywords.length) {
+        where += ` AND name LIKE '%${keywords}%'`;
+      }
 
       return await User.find({ take, skip, where });
     },
@@ -67,14 +70,14 @@ export const resolvers: IResolvers = {
       const skip = offset || 0;
       const take = limit || 10;
 
+      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
+        throw new ForbiddenError("you don't have access to that information");
+      }
+
       const where: string =
         keywords && keywords.length
           ? `name LIKE '%${keywords}%' OR email LIKE '%${keywords}%'`
           : `TRUE`;
-
-      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
-        throw new ForbiddenError("you don't have access to that information");
-      }
 
       return await User.find({ take, skip, where });
     },
@@ -115,6 +118,16 @@ export const resolvers: IResolvers = {
       }
 
       return transaction;
+    },
+
+    brokerBalance: async (_, __, { realm_access }) => {
+      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
+        throw new AuthenticationError("you must be logged in");
+      }
+
+      const users = await User.find();
+
+      return users.reduce((prev, curr) => prev + curr.balance, 0);
     },
   },
 

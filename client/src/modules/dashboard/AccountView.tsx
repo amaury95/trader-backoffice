@@ -1,4 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { WithRoles } from "components/WithRoles";
 import { Field, Form, Formik } from "formik";
 import { useParams } from "react-router-dom";
 import {
@@ -68,15 +69,17 @@ export default function AccountView() {
         <li>fee: {fee}</li>
       </ul>
 
-      <Formik<FeeMutationVariables>
-        initialValues={{ id, fee }}
-        onSubmit={handleSubmit}
-      >
-        <Form>
-          <Field type="number" name="fee" min="0" max="1" step="0.01" />
-          <button type="submit">Update Fee</button>
-        </Form>
-      </Formik>
+      <WithRoles roles={["admin"]}>
+        <Formik<FeeMutationVariables>
+          initialValues={{ id, fee }}
+          onSubmit={handleSubmit}
+        >
+          <Form>
+            <Field type="number" name="fee" min="0" max="1" step="0.01" />
+            <button type="submit">Update Fee</button>
+          </Form>
+        </Formik>
+      </WithRoles>
     </div>
   );
 }

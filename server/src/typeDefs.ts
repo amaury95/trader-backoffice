@@ -43,13 +43,15 @@ export const typeDefs = gql`
   type Query {
     session: User
 
-    users(keywords: String, limit: Int, offset: Int): [UserInfo!]
+    users(keywords: String, limit: Int, offset: Int): [UserInfo!]!
 
     accounts(keywords: String, limit: Int, offset: Int): [User!]
     account(id: ID!): User
 
     transactions(limit: Int, offset: Int): [Transaction!]
     transaction(id: ID!): Transaction
+
+    brokerBalance: Float
   }
 
   type Mutation {

@@ -45,9 +45,12 @@ export const income = async (_amount: number, sender: User) => {
 
   const allocations = amount.allocate(users.map((u) => u.balance));
 
+  const isProfit = amount.toDecimal() > 0;
+
   const incomes = allocations.map((a, i) => {
     const receiver = users[i];
-    const fee = a.multiply(receiver.fee);
+    const userFee = isProfit ? receiver.fee : 0;
+    const fee = a.multiply(userFee);
     const income = a.subtract(fee);
     return { receiver, income, fee };
   });

@@ -7,7 +7,7 @@
 // GraphQL query operation: AccountsQuery
 // ====================================================
 
-export interface AccountsQuery_accounts {
+export interface AccountsQuery_elements {
   __typename: "User";
   id: string;
   name: string;
@@ -17,7 +17,26 @@ export interface AccountsQuery_accounts {
 }
 
 export interface AccountsQuery {
-  accounts: AccountsQuery_accounts[] | null;
+  elements: AccountsQuery_elements[] | null;
+}
+
+export interface AccountsQueryVariables {
+  keywords?: string | null;
+  limit?: number | null;
+  offset?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: BrokerBalance
+// ====================================================
+
+export interface BrokerBalance {
+  brokerBalance: number | null;
 }
 
 /* tslint:disable */
@@ -175,7 +194,7 @@ export interface FilterUsers_users {
 }
 
 export interface FilterUsers {
-  users: FilterUsers_users[] | null;
+  users: FilterUsers_users[];
 }
 
 export interface FilterUsersVariables {
@@ -205,6 +224,31 @@ export interface Send {
 export interface SendVariables {
   amount: number;
   receiver: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: Users
+// ====================================================
+
+export interface Users_elements {
+  __typename: "UserInfo";
+  id: string;
+  name: string;
+}
+
+export interface Users {
+  elements: Users_elements[];
+}
+
+export interface UsersVariables {
+  keywords?: string | null;
+  limit?: number | null;
+  offset?: number | null;
 }
 
 /* tslint:disable */
