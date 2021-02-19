@@ -7,8 +7,7 @@ const depositMutation = gql`
   mutation Deposit($amount: Float!, $receiver: ID!) {
     deposit(amount: $amount, receiverId: $receiver) {
       id
-      amount
-      createdAt
+      balance
     }
   }
 `;

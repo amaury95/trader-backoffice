@@ -7,8 +7,7 @@ const incomeMutation = gql`
   mutation Income($amount: Float!) {
     income(amount: $amount) {
       id
-      amount
-      createdAt
+      balance
     }
   }
 `;

@@ -50,11 +50,12 @@ export default function AccountsView() {
             <>
               {data.elements?.map((a, k) => (
                 <li key={k}>
+                  <br />
                   <ul>
-                    <li>{a.name}</li>
-                    <li>{a.email}</li>
-                    <li>{a.balance}</li>
-                    <li>{a.fee}</li>
+                    <li>name: {a.name}</li>
+                    <li>email: {a.email}</li>
+                    <li>balance: {a.balance}</li>
+                    <li>fee: {a.fee}</li>
                     <li>
                       <Link to={`/dashboard/accounts/${a.id}`}>
                         View Details

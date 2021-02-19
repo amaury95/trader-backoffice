@@ -793,9 +793,17 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "Transaction",
-              "ofType": null
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -839,7 +847,7 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "Transaction",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,
@@ -874,7 +882,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Transaction",
+                  "name": "User",
                   "ofType": null
                 }
               }

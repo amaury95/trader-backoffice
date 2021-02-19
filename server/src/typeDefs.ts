@@ -57,8 +57,8 @@ export const typeDefs = gql`
   type Mutation {
     fee(fee: Float!, userId: ID!): User
 
-    send(amount: Float!, receiverId: ID!): Transaction
-    deposit(amount: Float!, receiverId: ID!): Transaction
-    income(amount: Float!): [Transaction!]
+    send(amount: Float!, receiverId: ID!): [User!]
+    deposit(amount: Float!, receiverId: ID!): User
+    income(amount: Float!): [User!]
   }
 `;

@@ -5,9 +5,11 @@ import Autocomplete from "react-autocomplete";
 import { TransferForm } from "./Transfer";
 import { gql, useQuery } from "@apollo/client";
 import { FilterUsers, FilterUsersVariables } from "types";
+import { useKeycloak } from "@react-keycloak/web";
 
 interface Props {
   name: string;
+  excludeCurrentUser?: boolean;
   setFieldValue(field: string, value?: string): void;
 }
 
@@ -23,14 +25,20 @@ const usersFilter = gql`
 export const AutocompleteAccountField = ({
   name: field,
   setFieldValue,
+  excludeCurrentUser,
 }: Props) => {
+  const { keycloak } = useKeycloak();
   const [keywords, setKeywords] = useState("");
 
   const { data } = useQuery<FilterUsers, FilterUsersVariables>(usersFilter, {
     variables: { keywords },
   });
 
-  const items = data?.users || [];
+  let items = data?.users || [];
+
+  if (excludeCurrentUser) {
+    items = items.filter((u) => u.id !== keycloak.subject);
+  }
 
   return (
     <Autocomplete

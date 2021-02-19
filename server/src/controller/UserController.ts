@@ -9,7 +9,7 @@ export const send = async (amount: number, sender: User, receiver: User) => {
     throw new ValidationError("insufficient balance");
   }
 
-  const transaction = await Transaction.create({
+  await Transaction.create({
     receiverId: receiver.id,
     senderId: sender.id,
     type: "transaction",
@@ -22,11 +22,11 @@ export const send = async (amount: number, sender: User, receiver: User) => {
   sender.balance -= amount;
   await sender.save();
 
-  return transaction;
+  return [sender, receiver];
 };
 
 export const deposit = async (amount: number, sender: User, receiver: User) => {
-  const transaction = await Transaction.create({
+  await Transaction.create({
     receiverId: receiver.id,
     senderId: sender.id,
     type: "deposit",
@@ -34,9 +34,7 @@ export const deposit = async (amount: number, sender: User, receiver: User) => {
   }).save();
 
   receiver.balance += amount;
-  await receiver.save();
-
-  return transaction;
+  return await receiver.save();
 };
 
 export const income = async (_amount: number, sender: User) => {
@@ -60,33 +58,36 @@ export const income = async (_amount: number, sender: User) => {
     new Money(0, Currencies.USD)
   );
 
-  const transactions: Transaction[] = [];
+  const accounts: User[] = [];
 
   for (const element of incomes) {
     const { receiver, income } = element;
 
-    const value = (receiver.id === sender.id
-      ? income.add(totalFee)
-      : income
-    ).toDecimal();
+    const receiverBalance = Money.fromDecimal(
+      receiver.balance,
+      Currencies.USD,
+      Math.floor
+    );
 
-    if (value === 0) continue;
+    const value = receiver.id === sender.id ? income.add(totalFee) : income;
 
-    const transaction = await Transaction.create({
+    if (value.toDecimal() === 0) continue;
+
+    await Transaction.create({
       receiverId: receiver.id,
       senderId: sender.id,
-      amount: value,
+      amount: value.toDecimal(),
       type: "income",
     }).save();
 
-    receiver.balance += value;
+    const newBalance = receiverBalance.add(value);
 
-    await receiver.save();
+    receiver.balance = newBalance.toDecimal();
 
-    transactions.push(transaction);
+    accounts.push(await receiver.save());
   }
 
-  return transactions;
+  return accounts;
 };
 
 export const hasRoles = (realmAccess: any, ...roles: string[]) => {

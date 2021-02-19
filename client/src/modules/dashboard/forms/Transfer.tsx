@@ -7,8 +7,7 @@ const transferMutation = gql`
   mutation Send($amount: Float!, $receiver: ID!) {
     send(amount: $amount, receiverId: $receiver) {
       id
-      amount
-      createdAt
+      balance
     }
   }
 `;
@@ -30,6 +29,7 @@ export const TransferForm = () => {
         <Form>
           <AutocompleteAccountField
             name="receiver"
+            excludeCurrentUser
             setFieldValue={setFieldValue}
           />
           <Field type="number" name="amount" />

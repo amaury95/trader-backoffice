@@ -139,10 +139,9 @@ export interface Session {
 // ====================================================
 
 export interface Deposit_deposit {
-  __typename: "Transaction";
+  __typename: "User";
   id: string;
-  amount: number;
-  createdAt: string;
+  balance: number;
 }
 
 export interface Deposit {
@@ -164,10 +163,9 @@ export interface DepositVariables {
 // ====================================================
 
 export interface Income_income {
-  __typename: "Transaction";
+  __typename: "User";
   id: string;
-  amount: number;
-  createdAt: string;
+  balance: number;
 }
 
 export interface Income {
@@ -211,14 +209,13 @@ export interface FilterUsersVariables {
 // ====================================================
 
 export interface Send_send {
-  __typename: "Transaction";
+  __typename: "User";
   id: string;
-  amount: number;
-  createdAt: string;
+  balance: number;
 }
 
 export interface Send {
-  send: Send_send | null;
+  send: Send_send[] | null;
 }
 
 export interface SendVariables {

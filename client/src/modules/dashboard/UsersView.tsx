@@ -23,7 +23,7 @@ export default function UsersView() {
           {(users) => (
             <>
               {users.elements.map((u) => (
-                <li key={u.id}>name: Name</li>
+                <li key={u.id}>name: {u.name}</li>
               ))}
             </>
           )}

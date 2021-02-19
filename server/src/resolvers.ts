@@ -55,13 +55,12 @@ export const resolvers: IResolvers = {
       const skip = offset || 0;
       const take = limit || 10;
 
-      if (!sub) throw new AuthenticationError("no access");
-
-      let where: string = `id NOT IN ( '${sub}' )`;
-
-      if (keywords && keywords.length) {
-        where += ` AND name LIKE '%${keywords}%'`;
+      if (!sub) {
+        throw new AuthenticationError("no access");
       }
+
+      const where: string =
+        keywords && keywords.length ? `name LIKE '%${keywords}%'` : `TRUE`;
 
       return await User.find({ take, skip, where });
     },
