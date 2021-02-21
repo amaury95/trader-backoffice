@@ -9,7 +9,6 @@ import {
 import { DashboardLayout } from "modules/dashboard";
 import BoardView from "modules/dashboard/BoardView";
 
-import UsersView from "modules/dashboard/UsersView";
 import AccountsView from "modules/dashboard/AccountsView";
 import { HomeLayout } from "modules/home";
 import HomeView from "modules/home/Home";
@@ -31,7 +30,6 @@ const DashboardRoutes = () => (
     <DashboardLayout>
       <Switch>
         <Route exact path="/dashboard" component={BoardView} />
-        <Route exact path="/dashboard/users" component={UsersView} />
         <Route exact path="/dashboard/accounts" component={AccountsView} />
         <Route exact path="/dashboard/accounts/:id" component={AccountView} />
         <Redirect to="/dashboard" />

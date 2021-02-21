@@ -25,7 +25,7 @@ export const DepositForm = (props: FormProps) => {
 
   return (
     <Formik<DepositVariables>
-      initialValues={{ receiver: "", amount: 0 }}
+      initialValues={{ receiver: "", amount: 1000 }}
       onSubmit={handleSubmit}
     >
       {({ setFieldValue, values }) => (
@@ -48,6 +48,7 @@ export const DepositForm = (props: FormProps) => {
               </Button>
 
               <Button
+                primary
                 onClick={() => {
                   handleSubmit(values);
                 }}

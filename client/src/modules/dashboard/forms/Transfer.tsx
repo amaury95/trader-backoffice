@@ -34,6 +34,7 @@ export const TransferForm = (props: FormProps) => {
           header="Make a Transaction"
           actions={
             <Button
+              primary
               onClick={() => {
                 handleSubmit(values);
               }}

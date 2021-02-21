@@ -48,11 +48,6 @@ export const Navigation = () => {
               active={pathname.endsWith("/dashboard")}
               onClick={() => history.push(`/dashboard`)}
             />
-            <Menu.Item
-              name="Users"
-              active={pathname.endsWith("/dashboard/users")}
-              onClick={() => history.push(`/dashboard/users`)}
-            />
           </WithRoles>
           <WithRoles roles={["admin", "accountant"]}>
             <Menu.Item

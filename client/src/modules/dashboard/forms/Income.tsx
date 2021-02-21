@@ -46,6 +46,7 @@ export const IncomeForm = (props: FormProps) => {
               </Button>
 
               <Button
+                primary
                 onClick={() => {
                   handleSubmit(values);
                 }}
