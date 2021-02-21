@@ -3,6 +3,7 @@ import Profile from "./components/Profile";
 
 export default function BoardView() {
   const { keycloak } = useKeycloak();
+  const id = keycloak.subject || "";
 
-  return <div>{keycloak.subject && <Profile id={keycloak.subject} />}</div>;
+  return <Profile id={id} />;
 }
