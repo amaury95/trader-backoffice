@@ -2,7 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Field, Form as FormikForm, Formik } from "formik";
 import { Button, Form, Label } from "semantic-ui-react";
 import { Deposit, DepositVariables } from "types";
-import { FormProps, ModalForm } from ".";
+import { ModalFormProps, ModalForm } from "../../../components/ModalForm";
 import { AutocompleteAccountField } from "./components/AutocompleteAccountField";
 
 const depositMutation = gql`
@@ -14,7 +14,7 @@ const depositMutation = gql`
   }
 `;
 
-export const DepositForm = (props: FormProps) => {
+export const DepositForm = (props: ModalFormProps) => {
   const [mutate] = useMutation<Deposit, DepositVariables>(depositMutation);
 
   const handleSubmit = async (variables: DepositVariables) => {

@@ -1,6 +1,8 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { WithRoles } from "components/WithRoles";
-import { DepositForm, IncomeForm, TransferForm } from "modules/dashboard/forms";
+import { DepositForm } from "modules/dashboard/forms/Deposit";
+import { IncomeForm } from "modules/dashboard/forms/Income";
+import { TransferForm } from "modules/dashboard/forms/Transfer";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { Menu, Dropdown, Segment } from "semantic-ui-react";

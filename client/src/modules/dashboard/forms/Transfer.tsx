@@ -2,7 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Field, Form as FormikForm, Formik } from "formik";
 import { Button, Form, Label } from "semantic-ui-react";
 import { Send, SendVariables } from "types";
-import { FormProps, ModalForm } from ".";
+import { ModalFormProps, ModalForm } from "../../../components/ModalForm";
 import { AutocompleteAccountField } from "./components/AutocompleteAccountField";
 
 const transferMutation = gql`
@@ -14,7 +14,7 @@ const transferMutation = gql`
   }
 `;
 
-export const TransferForm = (props: FormProps) => {
+export const TransferForm = (props: ModalFormProps) => {
   const [mutate] = useMutation<Send, SendVariables>(transferMutation);
 
   const handleSubmit = async (variables: SendVariables) => {

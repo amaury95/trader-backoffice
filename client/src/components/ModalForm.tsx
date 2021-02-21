@@ -1,10 +1,7 @@
 import { FunctionComponent } from "react";
 import { Modal } from "semantic-ui-react";
-import { DepositForm } from "./Deposit";
-import { IncomeForm } from "./Income";
-import { TransferForm } from "./Transfer";
 
-export interface FormProps {
+export interface ModalFormProps {
   open: boolean;
   onClose: () => void;
 
@@ -17,7 +14,7 @@ interface Actionable {
   actions: JSX.Element;
 }
 
-export const ModalForm: FunctionComponent<FormProps & Actionable> = ({
+export const ModalForm: FunctionComponent<ModalFormProps & Actionable> = ({
   header,
   children,
   actions,
@@ -35,5 +32,3 @@ export const ModalForm: FunctionComponent<FormProps & Actionable> = ({
     <Modal.Actions>{actions}</Modal.Actions>
   </Modal>
 );
-
-export { DepositForm, IncomeForm, TransferForm };
