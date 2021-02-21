@@ -1,7 +1,9 @@
 import { gql, useMutation } from "@apollo/client";
-import { Field, Form, Formik } from "formik";
+import { Form as FormikForm, Formik } from "formik";
+import { Button, Form, Label, Modal } from "semantic-ui-react";
 import { Deposit, DepositVariables } from "types";
-import { AutocompleteAccountField } from ".";
+import { FormProps } from ".";
+import { AutocompleteAccountField } from "./components/AutocompleteAccountField";
 
 const depositMutation = gql`
   mutation Deposit($amount: Float!, $receiver: ID!) {
@@ -12,28 +14,82 @@ const depositMutation = gql`
   }
 `;
 
-export const DepositForm = () => {
+export const DepositForm = (props: FormProps) => {
   const [mutate] = useMutation<Deposit, DepositVariables>(depositMutation);
 
   const handleSubmit = async (variables: DepositVariables) => {
     const deposit = await mutate({ variables });
     console.log({ deposit });
+    props.onClose();
   };
 
   return (
     <Formik<DepositVariables>
-      initialValues={{ receiver: "", amount: 5 }}
+      initialValues={{ receiver: "", amount: 0 }}
       onSubmit={handleSubmit}
     >
-      {({ setFieldValue }) => (
-        <Form>
-          <AutocompleteAccountField
-            name="receiver"
-            setFieldValue={setFieldValue}
-          />
-          <Field type="number" name="amount" />
-          <button type="submit">Deposit</button>
-        </Form>
+      {({ setFieldValue, values }) => (
+        <Modal
+          {...props}
+          title="Make a Deposit"
+          size="small"
+          dimmer="blurring"
+          closeOnDimmerClick={false}
+        >
+          <Modal.Header>Make a Deposit</Modal.Header>
+          <Modal.Content>
+            <FormikForm className="ui form">
+              <Form.Group widths="equal">
+                <AutocompleteAccountField
+                  name="deposit"
+                  onChange={(value) => setFieldValue("receiver", value)}
+                />
+                <Form.Input
+                  label="Amount"
+                  labelPosition="right"
+                  type="text"
+                  placeholder="Amount"
+                >
+                  <Label basic>$</Label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={values.amount}
+                    onChange={(e) =>
+                      setFieldValue("amount", parseFloat(e.target.value))
+                    }
+                  />
+                  <Label>USD</Label>
+                </Form.Input>
+              </Form.Group>
+            </FormikForm>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative onClick={props.onClose}>
+              Cancel
+            </Button>
+
+            <Button
+              secondary
+              onClick={() => {
+                handleSubmit({
+                  receiver: values.receiver,
+                  amount: -values.amount,
+                });
+              }}
+            >
+              Withdraw
+            </Button>
+
+            <Button
+              onClick={() => {
+                handleSubmit(values);
+              }}
+            >
+              Deposit
+            </Button>
+          </Modal.Actions>
+        </Modal>
       )}
     </Formik>
   );

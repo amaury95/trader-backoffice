@@ -9,6 +9,7 @@ import Routes from "Routes";
 import StoreProvider from "store";
 import { client } from "./apollo";
 
+import "semantic-ui-css/semantic.min.css";
 import "./index.css";
 
 const App = () => {
