@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { Form as FormikForm, Formik } from "formik";
+import { Field, Form as FormikForm, Formik } from "formik";
 import { Button, Form, Label, Modal } from "semantic-ui-react";
 import { Deposit, DepositVariables } from "types";
 import { FormProps } from ".";
@@ -51,14 +51,7 @@ export const DepositForm = (props: FormProps) => {
                   placeholder="Amount"
                 >
                   <Label basic>$</Label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={values.amount}
-                    onChange={(e) =>
-                      setFieldValue("amount", parseFloat(e.target.value))
-                    }
-                  />
+                  <Field type="number" name="amount" min="0" />
                   <Label>USD</Label>
                 </Form.Input>
               </Form.Group>

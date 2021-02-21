@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import { IncomeVariables, Income } from "types";
-import { Form as FormikForm, Formik } from "formik";
+import { Field, Form as FormikForm, Formik } from "formik";
 import { Button, Form, Label, Modal } from "semantic-ui-react";
 import { FormProps } from ".";
 
@@ -19,6 +19,7 @@ export const IncomeForm = (props: FormProps) => {
   const handleSubmit = async (variables: IncomeVariables) => {
     const transaction = await mutate({ variables });
     console.log({ transaction });
+    props.onClose();
   };
 
   return (
@@ -45,14 +46,7 @@ export const IncomeForm = (props: FormProps) => {
                   placeholder="Amount"
                 >
                   <Label basic>$</Label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={values.amount}
-                    onChange={(e) =>
-                      setFieldValue("amount", parseFloat(e.target.value))
-                    }
-                  />
+                  <Field type="number" name="amount" min="0" />
                   <Label>USD</Label>
                 </Form.Input>
               </Form.Group>
