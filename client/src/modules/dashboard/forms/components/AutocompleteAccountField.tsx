@@ -39,11 +39,11 @@ export const AutocompleteAccountField = (props: Props) => {
 
   const handleChange = (value: string) => setKeywords(value);
   const handleSelect = (data: { label: string; value: string } | null) => {
-    if (data === null) return;
-
-    console.log({ data });
-
-    props.onChange(data.value);
+    if (data) {
+      props.onChange(data.value);
+    } else {
+      props.onChange(``);
+    }
   };
 
   return (

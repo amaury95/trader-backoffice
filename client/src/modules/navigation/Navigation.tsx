@@ -3,7 +3,7 @@ import { WithRoles } from "components/WithRoles";
 import { DepositForm, IncomeForm, TransferForm } from "modules/dashboard/forms";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { Menu, Dropdown } from "semantic-ui-react";
+import { Menu, Dropdown, Segment } from "semantic-ui-react";
 
 const useModalForm = (): [boolean, () => void, () => void] => {
   const [state, setState] = useState(false);
@@ -34,57 +34,60 @@ export const Navigation = () => {
         <DepositForm open={depositForm} onClose={closeDepositForm} />
         <IncomeForm open={incomeForm} onClose={closeIncomeForm} />
       </WithRoles>
+      <Segment inverted basic>
+        <Menu inverted secondary>
+          <Menu.Item
+            header
+            name="Trader Admin"
+            onClick={() => history.push(`/`)}
+          />
 
-      <Menu secondary>
-        <Menu.Item
-          header
-          name="Trader Admin"
-          onClick={() => history.push(`/`)}
-        />
-
-        <WithRoles roles={["admin", "accountant", "investor"]}>
-          <Menu.Item
-            name="Dashboard"
-            active={pathname.endsWith("/dashboard")}
-            onClick={() => history.push(`/dashboard`)}
-          />
-          <Menu.Item
-            name="Users"
-            active={pathname.endsWith("/dashboard/users")}
-            onClick={() => history.push(`/dashboard/users`)}
-          />
-        </WithRoles>
-        <WithRoles roles={["admin", "accountant"]}>
-          <Menu.Item
-            name="Accounts"
-            active={pathname.endsWith("/dashboard/accounts")}
-            onClick={() => history.push(`/dashboard/accounts`)}
-          />
-        </WithRoles>
-        <WithRoles roles={["admin", "accountant", "investor"]}>
-          <Dropdown item text="Operations">
-            <Dropdown.Menu>
-              <Dropdown.Header>Financial Operations</Dropdown.Header>
-              <WithRoles roles={["investor"]}>
-                <Dropdown.Item onClick={showTransferForm}>
-                  Transfer
-                </Dropdown.Item>
-              </WithRoles>
-              <WithRoles roles={["admin"]}>
-                <Dropdown.Item onClick={showDepositForm}>Deposit</Dropdown.Item>
-                <Dropdown.Item onClick={showIncomeForm}>Income</Dropdown.Item>
-              </WithRoles>
-            </Dropdown.Menu>
-          </Dropdown>
-        </WithRoles>
-        <Menu.Menu position="right">
-          {keycloak.authenticated ? (
-            <Menu.Item name="Logout" onClick={handleLogout} />
-          ) : (
-            <Menu.Item name="Login" onClick={handleLogin} />
-          )}
-        </Menu.Menu>
-      </Menu>
+          <WithRoles roles={["admin", "accountant", "investor"]}>
+            <Menu.Item
+              name="Dashboard"
+              active={pathname.endsWith("/dashboard")}
+              onClick={() => history.push(`/dashboard`)}
+            />
+            <Menu.Item
+              name="Users"
+              active={pathname.endsWith("/dashboard/users")}
+              onClick={() => history.push(`/dashboard/users`)}
+            />
+          </WithRoles>
+          <WithRoles roles={["admin", "accountant"]}>
+            <Menu.Item
+              name="Accounts"
+              active={pathname.endsWith("/dashboard/accounts")}
+              onClick={() => history.push(`/dashboard/accounts`)}
+            />
+          </WithRoles>
+          <WithRoles roles={["admin", "accountant", "investor"]}>
+            <Dropdown item text="Operations">
+              <Dropdown.Menu>
+                <Dropdown.Header>Financial Operations</Dropdown.Header>
+                <WithRoles roles={["investor"]}>
+                  <Dropdown.Item onClick={showTransferForm}>
+                    Transfer
+                  </Dropdown.Item>
+                </WithRoles>
+                <WithRoles roles={["admin"]}>
+                  <Dropdown.Item onClick={showDepositForm}>
+                    Deposit
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={showIncomeForm}>Income</Dropdown.Item>
+                </WithRoles>
+              </Dropdown.Menu>
+            </Dropdown>
+          </WithRoles>
+          <Menu.Menu position="right">
+            {keycloak.authenticated ? (
+              <Menu.Item name="Logout" onClick={handleLogout} />
+            ) : (
+              <Menu.Item name="Login" onClick={handleLogin} />
+            )}
+          </Menu.Menu>
+        </Menu>
+      </Segment>
     </>
   );
 };
