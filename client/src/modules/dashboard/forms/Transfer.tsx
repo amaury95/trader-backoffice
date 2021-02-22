@@ -20,6 +20,7 @@ export const TransferForm = (props: ModalFormProps) => {
   const handleSubmit = async (variables: SendVariables) => {
     const transaction = await mutate({ variables });
     console.log({ transaction });
+    props.onClose();
   };
 
   return (
