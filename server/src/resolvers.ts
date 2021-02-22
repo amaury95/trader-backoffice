@@ -27,7 +27,9 @@ export const resolvers: IResolvers = {
   },
 
   Query: {
-    session: async (_, __, { sub, name, email, email_verified }) => {
+    session: async (_, __, ctx) => {
+      const { sub, name, preferred_username, email, email_verified } = ctx;
+
       if (!sub) {
         throw new UserInputError("you must be logged in");
       }
@@ -48,6 +50,7 @@ export const resolvers: IResolvers = {
         fee: 0.1,
         email,
         name,
+        username: preferred_username,
       }).save();
     },
 
@@ -60,7 +63,7 @@ export const resolvers: IResolvers = {
       }
 
       const where: string =
-        keywords && keywords.length ? `name LIKE '%${keywords}%'` : `TRUE`;
+        keywords && keywords.length ? `username LIKE '%${keywords}%'` : `TRUE`;
 
       return await User.find({ take, skip, where });
     },
@@ -75,7 +78,7 @@ export const resolvers: IResolvers = {
 
       const where: string =
         keywords && keywords.length
-          ? `name LIKE '%${keywords}%' OR email LIKE '%${keywords}%'`
+          ? `username LIKE '%${keywords}%' OR email LIKE '%${keywords}%'`
           : `TRUE`;
 
       return await User.find({ take, skip, where });

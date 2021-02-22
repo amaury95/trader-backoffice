@@ -7,6 +7,7 @@ export interface Payload {
   sub: string;
   name: string;
   email: string;
+  preferred_username: string;
   realm_access: {
     roles: string[];
   };

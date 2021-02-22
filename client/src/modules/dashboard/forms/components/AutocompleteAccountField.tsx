@@ -15,7 +15,7 @@ const usersFilter = gql`
   query FilterUsers($keywords: String) {
     users(keywords: $keywords) {
       id
-      name
+      username
     }
   }
 `;
@@ -61,7 +61,7 @@ export const AutocompleteAccountField = (props: Props) => {
         classNamePrefix={props.name}
         isLoading={loading}
         isClearable
-        options={items.map(({ id: value, name: label }) => ({
+        options={items.map(({ id: value, username: label }) => ({
           value,
           label,
         }))}

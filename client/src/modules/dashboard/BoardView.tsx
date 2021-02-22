@@ -7,6 +7,7 @@ const sessionQuery = gql`
     account: session {
       id
       name
+      username
       balance
       fee
       avatar

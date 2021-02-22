@@ -7,6 +7,7 @@ const accountQuery = gql`
   query AccountQuery($id: ID!) {
     account(id: $id) {
       id
+      username
       name
       balance
       fee

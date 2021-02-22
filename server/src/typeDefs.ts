@@ -24,6 +24,7 @@ export const typeDefs = gql`
   type User {
     id: ID!
     email: String!
+    username: String!
     name: String!
     avatar: String
     balance: Float!
@@ -38,6 +39,7 @@ export const typeDefs = gql`
 
   type UserInfo {
     id: ID!
+    username: String!
     name: String!
     avatar: String
   }

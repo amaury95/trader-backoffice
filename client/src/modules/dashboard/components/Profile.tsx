@@ -26,7 +26,7 @@ export default function ProfileView({ account }: ProfileViewProps) {
   const [nameForm, showNameForm, closeNameForm] = useModalForm();
   const [feeForm, showFeeForm, closeFeeForm] = useModalForm();
 
-  const { id, avatar, name, email, balance, fee } = account;
+  const { id, username, avatar, name, email, balance, fee } = account;
 
   return (
     <div>
@@ -47,6 +47,8 @@ export default function ProfileView({ account }: ProfileViewProps) {
         />
       </WithRoles>
       <ul>
+        <li>id: {id}</li>
+        <li>username: {username}</li>
         <li>
           avatar: {avatar}{" "}
           <WithRoles own={id} roles={["investor", "accountant", "admin"]}>

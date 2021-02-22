@@ -51,6 +51,7 @@ export interface BrokerBalance {
 export interface AccountQuery_account {
   __typename: "User";
   id: string;
+  username: string;
   name: string;
   balance: number;
   fee: number;
@@ -79,6 +80,7 @@ export interface SessionQuery_account {
   __typename: "User";
   id: string;
   name: string;
+  username: string;
   balance: number;
   fee: number;
   avatar: string | null;
@@ -129,7 +131,7 @@ export interface EditProfileVariables {
 export interface FilterUsers_users {
   __typename: "UserInfo";
   id: string;
-  name: string;
+  username: string;
 }
 
 export interface FilterUsers {
