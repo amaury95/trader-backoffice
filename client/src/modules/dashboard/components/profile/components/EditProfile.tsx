@@ -3,7 +3,7 @@ import { Form, Formik, Field } from "formik";
 import React from "react";
 import { ProfileViewProps } from "../Profile";
 import { ProfileMutation, ProfileMutationVariables } from "types";
-import { Button, Checkbox, Form as Input } from "semantic-ui-react";
+import { Button, Form as Input } from "semantic-ui-react";
 import { WithRoles } from "components/WithRoles";
 
 const profileMutation = gql`
