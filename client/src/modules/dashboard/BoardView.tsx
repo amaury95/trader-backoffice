@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { SessionQuery } from "types";
-import ProfileView from "./components/Profile";
+import ProfileView from "./components/profile/Profile";
 
 const sessionQuery = gql`
   query SessionQuery {

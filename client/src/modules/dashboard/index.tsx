@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { FunctionComponent } from "react";
 import { Redirect } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 
 export const DashboardLayout: FunctionComponent = ({ children }) => {
   const { keycloak, initialized } = useKeycloak();
@@ -13,5 +14,5 @@ export const DashboardLayout: FunctionComponent = ({ children }) => {
     return <Redirect to="/" />;
   }
 
-  return <>{children}</>;
+  return <Container>{children}</Container>;
 };
