@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { useState } from "react";
 import { Grid, Menu } from "semantic-ui-react";
 import { AccountQuery_account } from "types";
