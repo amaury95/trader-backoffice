@@ -131,6 +131,16 @@ export const resolvers: IResolvers = {
 
       return users.reduce((prev, curr) => prev + curr.balance, 0);
     },
+
+    totalAccounts: async (_, __, { realm_access }) => {
+      if (!UserController.hasRoles(realm_access, "admin", "accountant")) {
+        throw new AuthenticationError("you must be logged in");
+      }
+
+      const users = await User.find();
+
+      return users.length;
+    },
   },
 
   Mutation: {

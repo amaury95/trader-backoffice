@@ -13,3 +13,8 @@
   padding: 15px 20px;
   width: 300px;
 }
+
+.nickname {
+  color: lightslategray;
+  font-weight: 100;
+}

@@ -56,6 +56,7 @@ export const typeDefs = gql`
     transaction(id: ID!): Transaction
 
     brokerBalance: Float
+    totalAccounts: Int
   }
 
   type Mutation {

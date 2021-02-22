@@ -11,6 +11,7 @@ export interface AccountsQuery_elements {
   __typename: "User";
   id: string;
   name: string;
+  username: string;
   email: string;
   balance: number;
   fee: number;
@@ -32,11 +33,12 @@ export interface AccountsQueryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: BrokerBalance
+// GraphQL query operation: Statistics
 // ====================================================
 
-export interface BrokerBalance {
+export interface Statistics {
   brokerBalance: number | null;
+  totalAccounts: number | null;
 }
 
 /* tslint:disable */
