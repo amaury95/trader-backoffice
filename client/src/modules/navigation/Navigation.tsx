@@ -1,18 +1,11 @@
 import { useKeycloak } from "@react-keycloak/web";
+import { useModalForm } from "components/ModalForm";
 import { WithRoles } from "components/WithRoles";
 import { DepositForm } from "modules/dashboard/forms/Deposit";
 import { IncomeForm } from "modules/dashboard/forms/Income";
 import { TransferForm } from "modules/dashboard/forms/Transfer";
-import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { Menu, Dropdown, Segment } from "semantic-ui-react";
-
-const useModalForm = (): [boolean, () => void, () => void] => {
-  const [state, setState] = useState(false);
-  const onClose = () => setState(false);
-  const onOpen = () => setState(true);
-  return [state, onOpen, onClose];
-};
 
 export const Navigation = () => {
   const { keycloak } = useKeycloak();
@@ -80,7 +73,7 @@ export const Navigation = () => {
             {keycloak.authenticated ? (
               <Menu.Item name="Logout" onClick={handleLogout} />
             ) : (
-              <Menu.Item name="Login" onClick={handleLogin} />
+              <Menu.Item name="Login" active onClick={handleLogin} />
             )}
           </Menu.Menu>
         </Menu>

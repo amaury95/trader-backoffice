@@ -54,6 +54,7 @@ export interface AccountQuery_account {
   name: string;
   balance: number;
   fee: number;
+  avatar: string | null;
   email: string;
 }
 
@@ -71,25 +72,21 @@ export interface AccountQueryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: FeeMutation
+// GraphQL query operation: SessionQuery
 // ====================================================
 
-export interface FeeMutation_fee {
+export interface SessionQuery_account {
   __typename: "User";
   id: string;
   name: string;
   balance: number;
   fee: number;
+  avatar: string | null;
   email: string;
 }
 
-export interface FeeMutation {
-  fee: FeeMutation_fee | null;
-}
-
-export interface FeeMutationVariables {
-  id: string;
-  fee: number;
+export interface SessionQuery {
+  account: SessionQuery_account | null;
 }
 
 /* tslint:disable */
@@ -98,35 +95,49 @@ export interface FeeMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Session
+// GraphQL mutation operation: EditProfile
 // ====================================================
 
-export interface Session_session_edges_income {
-  __typename: "Transaction";
-  amount: number;
-  createdAt: string;
-}
-
-export interface Session_session_edges_outcome {
-  __typename: "Transaction";
-  amount: number;
-  createdAt: string;
-}
-
-export interface Session_session_edges {
-  __typename: "UserEdges";
-  income: Session_session_edges_income[];
-  outcome: Session_session_edges_outcome[];
-}
-
-export interface Session_session {
+export interface EditProfile_profile {
   __typename: "User";
-  balance: number;
-  edges: Session_session_edges;
+  id: string;
+  name: string;
+  avatar: string | null;
+  fee: number;
 }
 
-export interface Session {
-  session: Session_session | null;
+export interface EditProfile {
+  profile: EditProfile_profile | null;
+}
+
+export interface EditProfileVariables {
+  id: string;
+  name?: string | null;
+  avatar?: string | null;
+  fee?: number | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: FilterUsers
+// ====================================================
+
+export interface FilterUsers_users {
+  __typename: "UserInfo";
+  id: string;
+  name: string;
+}
+
+export interface FilterUsers {
+  users: FilterUsers_users[];
+}
+
+export interface FilterUsersVariables {
+  keywords?: string | null;
 }
 
 /* tslint:disable */
@@ -182,29 +193,6 @@ export interface IncomeVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: FilterUsers
-// ====================================================
-
-export interface FilterUsers_users {
-  __typename: "UserInfo";
-  id: string;
-  name: string;
-}
-
-export interface FilterUsers {
-  users: FilterUsers_users[];
-}
-
-export interface FilterUsersVariables {
-  keywords?: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL mutation operation: Send
 // ====================================================
 
@@ -221,31 +209,6 @@ export interface Send {
 export interface SendVariables {
   amount: number;
   receiver: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: Users
-// ====================================================
-
-export interface Users_elements {
-  __typename: "UserInfo";
-  id: string;
-  name: string;
-}
-
-export interface Users {
-  elements: Users_elements[];
-}
-
-export interface UsersVariables {
-  keywords?: string | null;
-  limit?: number | null;
-  offset?: number | null;
 }
 
 /* tslint:disable */

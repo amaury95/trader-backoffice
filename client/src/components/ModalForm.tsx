@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Modal } from "semantic-ui-react";
 
 export interface ModalFormProps {
@@ -32,3 +32,10 @@ export const ModalForm: FunctionComponent<ModalFormProps & Actionable> = ({
     <Modal.Actions>{actions}</Modal.Actions>
   </Modal>
 );
+
+export const useModalForm = (): [boolean, () => void, () => void] => {
+  const [state, setState] = useState(false);
+  const onClose = () => setState(false);
+  const onOpen = () => setState(true);
+  return [state, onOpen, onClose];
+};

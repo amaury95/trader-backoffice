@@ -1,7 +1,31 @@
+import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import Profile from "./components/Profile";
+import { AccountQuery, AccountQueryVariables } from "types";
+import ProfileView from "./components/Profile";
+
+const accountQuery = gql`
+  query AccountQuery($id: ID!) {
+    account(id: $id) {
+      id
+      name
+      balance
+      fee
+      avatar
+      email
+    }
+  }
+`;
 
 export default function AccountView() {
   const { id } = useParams<any>();
-  return <Profile id={id} />;
+  const { data, loading } = useQuery<AccountQuery, AccountQueryVariables>(
+    accountQuery,
+    { variables: { id } }
+  );
+
+  if (loading || !data?.account) {
+    return <div>loading...</div>;
+  }
+
+  return <ProfileView account={data.account} />;
 }

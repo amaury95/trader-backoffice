@@ -131,20 +131,30 @@ export const resolvers: IResolvers = {
   },
 
   Mutation: {
-    fee: async (_, { fee, userId }, { realm_access }) => {
-      if (!UserController.hasRoles(realm_access, "admin")) {
+    profile: async (_, { id, name, avatar, fee }, { sub, realm_access }) => {
+      const isAdmin = UserController.hasRoles(realm_access, "admin");
+      if (!id === sub && !isAdmin) {
         throw new AuthenticationError("no access");
       }
 
-      const user = await User.findOne(userId);
+      const user = await User.findOne(id);
 
       if (!user) {
         throw new UserInputError("invalid userId");
       }
 
-      user.fee = fee;
+      user.name = name || user.name;
 
-      return await user.save();
+      user.avatar = avatar || user.avatar;
+
+      if (user.fee !== null && isAdmin) {
+        user.fee = fee;
+      }
+
+      const result = await user.save();
+      console.log(result);
+
+      return result;
     },
 
     send: async (_, { amount, receiverId }, { sub }) => {

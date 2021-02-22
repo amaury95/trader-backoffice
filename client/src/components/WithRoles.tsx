@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 
 interface Props {
   roles: string[];
+  own?: string;
   fallback?: string;
 }
 
@@ -14,7 +15,11 @@ export const WithRoles: FunctionComponent<Props> = ({ children, ...props }) => {
     return <></>;
   }
 
+  const owner =
+    !props.own || (keycloak.subject && keycloak.subject === props.own);
+
   if (
+    !owner ||
     !keycloak.authenticated ||
     !props.roles.some((r) => keycloak.hasRealmRole(r))
   ) {

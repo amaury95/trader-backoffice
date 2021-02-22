@@ -17,16 +17,17 @@ export const typeDefs = gql`
   }
 
   type TransactionEdges {
-    sender: User!
-    receiver: User!
+    sender: UserInfo!
+    receiver: UserInfo!
   }
 
   type User {
     id: ID!
+    email: String!
     name: String!
+    avatar: String
     balance: Float!
     fee: Float!
-    email: String!
     edges: UserEdges!
   }
 
@@ -38,6 +39,7 @@ export const typeDefs = gql`
   type UserInfo {
     id: ID!
     name: String!
+    avatar: String
   }
 
   type Query {
@@ -55,7 +57,7 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    fee(fee: Float!, userId: ID!): User
+    profile(id: ID!, name: String, avatar: String, fee: Float): User
 
     send(amount: Float!, receiverId: ID!): [User!]
     deposit(amount: Float!, receiverId: ID!): User
