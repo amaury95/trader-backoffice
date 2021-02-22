@@ -97,10 +97,10 @@ export interface SessionQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: EditProfile
+// GraphQL mutation operation: ProfileMutation
 // ====================================================
 
-export interface EditProfile_profile {
+export interface ProfileMutation_profile {
   __typename: "User";
   id: string;
   name: string;
@@ -108,11 +108,11 @@ export interface EditProfile_profile {
   fee: number;
 }
 
-export interface EditProfile {
-  profile: EditProfile_profile | null;
+export interface ProfileMutation {
+  profile: ProfileMutation_profile | null;
 }
 
-export interface EditProfileVariables {
+export interface ProfileMutationVariables {
   id: string;
   name?: string | null;
   avatar?: string | null;

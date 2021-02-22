@@ -48,7 +48,7 @@ export default function Profile({ account }: ProfileViewProps) {
         </Menu>
         {activeMenu(statisticsMenu) && <Statistics />}
         {activeMenu(transactionsMenu) && <Transactions />}
-        {activeMenu(editionMenu) && <EditProfile />}
+        {activeMenu(editionMenu) && <EditProfile account={account} />}
       </Grid.Column>
     </Grid>
   );
